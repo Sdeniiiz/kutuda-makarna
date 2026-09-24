@@ -1,0 +1,84 @@
+---
+import { branches } from '../data/branches';
+---
+
+<section class="py-20 lg:py-24 bg-[#0E0E10] border-t border-zinc-900">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+      <div>
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFB800]/10 border border-[#FFB800]/30 text-[#FFB800] text-xs font-bold uppercase tracking-wider mb-3">
+          <span>📍 Yerel Şubelerimiz</span>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight font-sans">
+          SANA EN YAKIN <span class="text-[#FFB800]">KUTUDA MAKARNA</span>
+        </h2>
+        <p class="text-zinc-400 mt-2 text-sm sm:text-base max-w-xl">
+          Samsun genelinde 3 farklı stratejik noktada sıcak ve taze makarnanızı hazırlıyoruz.
+        </p>
+      </div>
+
+      <a
+        href="/subeler"
+        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-zinc-700 hover:border-[#FFB800] text-white font-bold text-sm transition-all"
+      >
+        <span>Tüm Şubeler & Harita</span>
+        <span>→</span>
+      </a>
+    </div>
+
+    <!-- Branches Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {branches.map((b) => (
+        <div class="bg-[#14141A] border border-zinc-800 rounded-2xl p-6 sm:p-8 flex flex-col justify-between card-hover relative group">
+          <!-- Live Status Badge -->
+          <div class="flex items-center justify-between mb-6">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-950/80 text-emerald-400 border border-emerald-800/60">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              Şimdi Açık
+            </span>
+            <span class="text-xs text-zinc-500 font-mono">{b.district}</span>
+          </div>
+
+          <div class="space-y-4 flex-1">
+            <h3 class="text-2xl font-bold text-white group-hover:text-[#FFB800] transition-colors">
+              <a href={`/subeler/${b.slug}`}>{b.name}</a>
+            </h3>
+
+            <p class="text-xs text-zinc-400 leading-relaxed">
+              {b.address}
+            </p>
+
+            <div class="pt-2 space-y-2 text-xs text-zinc-300">
+              <div class="flex items-center gap-2">
+                <span class="text-[#FFB800]">🕒</span>
+                <span>{b.workingHours.weekdays}</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-[#FFB800]">📞</span>
+                <a href={`tel:${b.phone}`} class="hover:text-[#FFB800] transition-colors font-mono">{b.phoneDisplay}</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom CTAs -->
+          <div class="pt-6 mt-6 border-t border-zinc-800 flex items-center justify-between gap-3">
+            <a
+              href={`/subeler/${b.slug}`}
+              class="flex-1 text-center py-2.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-white text-xs font-bold transition-colors"
+            >
+              Şube Detayı
+            </a>
+            <a
+              href={b.googleMapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex-1 text-center py-2.5 rounded-lg bg-[#FFB800] hover:bg-[#F59E0B] text-[#0E0E10] text-xs font-bold transition-all shadow-md shadow-[#FFB800]/20"
+            >
+              Yol Tarifi Al ↗
+            </a>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

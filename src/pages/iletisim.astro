@@ -1,0 +1,165 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { branches } from '../data/branches';
+
+const contactSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  'name': 'Kutuda Makarna İletişim',
+  'description': 'Kutuda Makarna iletişim, şube telefon numaraları, franchise başvurusu ve toplu kutu siparişi.',
+  'url': 'https://kutudamakarna.com/iletisim'
+};
+---
+
+<Layout
+  title="İletişim & Franchise Başvurusu | Kutuda Makarna"
+  description="Kutuda Makarna genel merkez ve şube iletişim bilgileri. Franchise bayilik başvurusu, toplu kutu siparişi ve önerileriniz için bize ulaşın."
+  canonical="https://kutudamakarna.com/iletisim"
+  activePath="/iletisim"
+  schemaJson={contactSchema}
+>
+  <div class="py-12 lg:py-20 bg-[#0E0E10]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Header -->
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFB800]/10 border border-[#FFB800]/30 text-[#FFB800] text-xs font-bold uppercase tracking-wider mb-4">
+          <span>📬 Bize Ulaşın</span>
+        </div>
+        <h1 class="text-4xl sm:text-5xl font-black text-white tracking-tight font-sans">
+          İLETİŞİM & <span class="text-[#FFB800]">FRANCHISE</span>
+        </h1>
+        <p class="text-zinc-400 mt-3 text-base sm:text-lg">
+          Görüşleriniz, kurumsal toplu siparişleriniz veya şehrinizde Kutuda Makarna şubesi açmak için bize yazın.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        
+        <!-- Contact Form -->
+        <div class="lg:col-span-7 bg-[#14141A] border border-zinc-800 rounded-3xl p-8 sm:p-10 shadow-2xl">
+          <h2 class="text-2xl font-bold text-white mb-6">Mesaj Gönderin</h2>
+          
+          <form class="space-y-5" onsubmit="event.preventDefault(); alert('Mesajınız alındı! Ekibimiz en kısa sürede sizinle iletişime geçecektir.');">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="name" class="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-2">Adınız Soyadınız *</label>
+                <input
+                  type="text"
+                  id="name"
+                  required
+                  placeholder="Ahmet Yılmaz"
+                  class="w-full px-4 py-3 rounded-xl bg-zinc-900 border border-zinc-700 text-white placeholder-zinc-500 focus:outline-none focus:border-[#FFB800] focus:ring-1 focus:ring-[#FFB800] text-sm"
+                />
+              </div>
+
+              <div>
+                <label for="phone" class="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-2">Telefon Numaranız *</label>
+                <input
+                  type="tel"
+                  id="phone"
+                  required
+                  placeholder="0 (5XX) XXX XX XX"
+                  class="w-full px-4 py-3 rounded-xl bg-zinc-900 border border-zinc-700 text-white placeholder-zinc-500 focus:outline-none focus:border-[#FFB800] focus:ring-1 focus:ring-[#FFB800] text-sm font-mono"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label for="email" class="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-2">E-posta Adresiniz</label>
+              <input
+                type="email"
+                id="email"
+                placeholder="ornek@kutudamakarna.com"
+                class="w-full px-4 py-3 rounded-xl bg-zinc-900 border border-zinc-700 text-white placeholder-zinc-500 focus:outline-none focus:border-[#FFB800] focus:ring-1 focus:ring-[#FFB800] text-sm"
+              />
+            </div>
+
+            <div>
+              <label for="topic" class="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-2">Konu</label>
+              <select
+                id="topic"
+                class="w-full px-4 py-3 rounded-xl bg-zinc-900 border border-zinc-700 text-white focus:outline-none focus:border-[#FFB800] text-sm"
+              >
+                <option value="genel">Genel Görüş & Öneri</option>
+                <option value="franchise">Franchise (Bayilik) Talebi</option>
+                <option value="toplu-siparis">Toplu Kutu / Kurumsal Yemek Siparişi</option>
+                <option value="sikayet">Memnuniyet & Geri Bildirim</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="message" class="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-2">Mesajınız *</label>
+              <textarea
+                id="message"
+                rows="4"
+                required
+                placeholder="Nasıl yardımcı olabiliriz?"
+                class="w-full px-4 py-3 rounded-xl bg-zinc-900 border border-zinc-700 text-white placeholder-zinc-500 focus:outline-none focus:border-[#FFB800] focus:ring-1 focus:ring-[#FFB800] text-sm"
+              ></textarea>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <input type="checkbox" id="kvkk" required class="rounded accent-[#FFB800]" />
+              <label for="kvkk" class="text-xs text-zinc-400">
+                KVKK Aydınlatma Metni'ni okudum ve kabul ediyorum.
+              </label>
+            </div>
+
+            <button
+              type="submit"
+              class="w-full py-4 rounded-xl bg-[#FFB800] text-[#0E0E10] font-black text-sm hover:bg-[#F59E0B] shadow-lg shadow-[#FFB800]/25 transition-transform hover:scale-102 cursor-pointer"
+            >
+              MESAJI GÖNDER →
+            </button>
+          </form>
+        </div>
+
+        <!-- Branches Direct Phones & Hours -->
+        <div class="lg:col-span-5 space-y-6">
+          <div class="bg-[#14141A] border border-zinc-800 rounded-3xl p-8 space-y-6">
+            <h2 class="text-xl font-bold text-white border-l-2 border-[#FFB800] pl-3">
+              Şube Hatlarımız (Gel-Al & Sipariş)
+            </h2>
+
+            <div class="space-y-4">
+              {branches.map((b) => (
+                <div class="p-4 rounded-xl bg-zinc-900/70 border border-zinc-800 space-y-1">
+                  <div class="flex items-center justify-between">
+                    <span class="font-bold text-white text-sm">{b.name}</span>
+                    <span class="text-[10px] text-emerald-400 font-bold">🟢 Açık</span>
+                  </div>
+                  <a href={`tel:${b.phone}`} class="text-base font-black text-[#FFB800] font-mono hover:underline block">
+                    {b.phoneDisplay}
+                  </a>
+                  <p class="text-xs text-zinc-400 line-clamp-1">{b.address}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <!-- Franchise Info Box -->
+          <div class="bg-gradient-to-br from-[#1E1E26] to-[#121216] border border-[#FFB800]/30 rounded-3xl p-8 space-y-3">
+            <div class="w-10 h-10 rounded-xl bg-[#FFB800] text-[#0E0E10] flex items-center justify-center font-black text-lg">
+              💼
+            </div>
+            <h3 class="text-lg font-bold text-white">Kutuda Makarna Ailesine Katılın</h3>
+            <p class="text-xs text-zinc-300 leading-relaxed">
+              Yüksek kârlılık, düşük metrekare ihtiyacı ve standardize operasyonel lezzet sistemiyle Türkiye geneline franchise veriyoruz.
+            </p>
+            <div class="pt-2">
+              <a
+                href="mailto:franchise@kutudamakarna.com"
+                class="text-xs font-bold text-[#FFB800] hover:underline"
+              >
+                franchise@kutudamakarna.com ↗
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</Layout>

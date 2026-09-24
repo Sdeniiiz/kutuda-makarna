@@ -1,0 +1,46 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="404 — Bu Kutuyu Bulamadık | Kutuda Makarna"
+  description="Aradığınız sayfa veya kutu bulunamadı. Sıcak ve taze makarnalarımızı keşfetmek için menümüze göz atın."
+  canonical="https://kutudamakarna.com/404"
+  activePath="/404"
+>
+  <div class="min-h-[70vh] flex items-center justify-center py-16 px-4 bg-[#0E0E10] text-center">
+    <div class="max-w-md mx-auto space-y-6">
+      
+      <!-- 404 Empty Open Box Graphic -->
+      <div class="relative w-36 h-36 mx-auto bg-zinc-900 rounded-3xl border-2 border-dashed border-[#FFB800]/50 flex flex-col items-center justify-center p-4">
+        <span class="text-5xl">📦</span>
+        <span class="text-xs font-mono font-bold text-[#FFB800] mt-2">HATA 404</span>
+      </div>
+
+      <h1 class="text-3xl sm:text-4xl font-black text-white tracking-tight font-sans">
+        BU KUTUYU <span class="text-[#FFB800]">BULAMADIK!</span>
+      </h1>
+
+      <p class="text-zinc-400 text-sm leading-relaxed">
+        Aradığın sayfa ya da lezzet kutusu henüz hazırlanmamış veya başka bir şubeye taşınmış olabilir.
+      </p>
+
+      <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
+        <a
+          href="/menu"
+          class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-[#FFB800] text-[#0E0E10] font-black text-sm hover:bg-[#F59E0B] shadow-lg shadow-[#FFB800]/25 transition-transform hover:scale-105"
+        >
+          MENÜDEN KUTUNU SEÇ →
+        </a>
+
+        <a
+          href="/"
+          class="w-full sm:w-auto px-6 py-3.5 rounded-xl border border-zinc-700 hover:border-zinc-500 text-white font-bold text-sm transition-colors"
+        >
+          Ana Sayfaya Dön
+        </a>
+      </div>
+
+    </div>
+  </div>
+</Layout>

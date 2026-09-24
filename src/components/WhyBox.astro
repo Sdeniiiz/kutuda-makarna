@@ -1,0 +1,48 @@
+---
+const reasons = [
+  {
+    icon: '🌡️',
+    title: '30 Dakika Sıcak Kalan Özel İzolasyon',
+    description: 'Klasik porselen tabaklar saniyeler içinde soğur ve krema donar. Kutuda Makarna\'nın çift katmanlı özel kutusu sıcaklığı ve buharı hapsederek son çatala kadar ilk anki al dente lezzetini korur.'
+  },
+  {
+    icon: '🥣',
+    title: 'Sos Dibe Çökmez, Her Bukleye Sarılır',
+    description: 'Kutunun konik iç geometrisi, sosun tabana akıp kaybolmasını engeller. Çatalı her daldırdığınızda alttan yukarıya doğal bir sos dolaşımı gerçekleşir.'
+  },
+  {
+    icon: '🚶‍♂️',
+    title: 'Masa Zorunluluğu Yok, Hayatın İçinde',
+    description: 'Atakum sahilinde yürüyüş yaparken, İlkadım Çiftlik Caddesi\'nde alışverişte veya ofiste öğle arasında... Tabağa ve garsona bağlı kalmadan dilediğin yerde gurme makarna ye.'
+  }
+];
+---
+
+<section class="py-20 lg:py-24 bg-[#0E0E10] relative">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#FFB800]/10 border border-[#FFB800]/30 text-[#FFB800] text-xs font-bold uppercase tracking-wider mb-4">
+        <span>📦 Neden Kutu?</span>
+      </div>
+      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight font-sans">
+        TABAKLARI UNUTUN, <span class="text-[#FFB800]">KUTUYA GEÇİN</span>
+      </h2>
+      <p class="text-zinc-400 mt-4 text-base leading-relaxed">
+        Kutu sadece bir ambalaj değil; taze makarnanın kıvamını, sıcaklığını ve sos dengesini mükemmelleştiren özel bir lezzet kapsülüdür.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {reasons.map((r, i) => (
+        <div class="bg-gradient-to-b from-[#16161C] to-[#121216] border border-zinc-800 rounded-2xl p-8 relative group hover:border-[#FFB800]/40 transition-all card-hover">
+          <div class="w-14 h-14 rounded-2xl bg-[#FFB800]/10 border border-[#FFB800]/30 flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform">
+            {r.icon}
+          </div>
+          <span class="text-xs font-mono font-bold text-[#FFB800] tracking-widest block mb-2">0{i + 1} / AVANTAJ</span>
+          <h3 class="text-xl font-bold text-white mb-3 group-hover:text-[#FFB800] transition-colors">{r.title}</h3>
+          <p class="text-sm text-zinc-400 leading-relaxed">{r.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,129 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import { menuItems } from '../../data/menu';
+
+const categories = [
+  { id: 'tumu', name: 'Tüm Menü' },
+  { id: 'kremali', name: 'Kremalı Klasikler' },
+  { id: 'domatesli', name: 'Domatesli & Etli' },
+  { id: 'spesiyal', name: 'Gurme Spesiyaller' },
+  { id: 'yan-urun', name: 'Tatlı & İçecek' },
+];
+
+const menuSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Menu',
+  'name': 'Kutuda Makarna Menüsü',
+  'url': 'https://kutudamakarna.com/menu',
+  'hasMenuItem': menuItems.map(item => ({
+    '@type': 'MenuItem',
+    'name': item.name,
+    'description': item.shortDescription,
+    'offers': {
+      '@type': 'Offer',
+      'price': item.price,
+      'priceCurrency': 'TRY'
+    }
+  }))
+};
+---
+
+<Layout
+  title="Kutuda Makarna Menüsü | Fiyatlar & Taze Makarna Çeşitleri"
+  description="Kutuda Makarna menüsü: Kremalı mantarlı, geleneksel bolonez, acılı arrabbiata, taze fesleğenli pesto ve gurme spesiyaller. Fiyatlar ve içerikler."
+  canonical="https://kutudamakarna.com/menu"
+  activePath="/menu"
+  schemaJson={menuSchema}
+>
+  <div class="py-12 lg:py-20 bg-gradient-to-b from-[#0E0E10] to-[#121216]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Page Header -->
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFB800]/10 border border-[#FFB800]/30 text-[#FFB800] text-xs font-bold uppercase tracking-wider mb-4">
+          <span>🍝 Kutunu Seç</span>
+        </div>
+        <h1 class="text-4xl sm:text-5xl font-black text-white tracking-tight font-sans">
+          KUTUDA MAKARNA <span class="text-[#FFB800]">MENÜSÜ</span>
+        </h1>
+        <p class="text-zinc-400 mt-3 text-base sm:text-lg">
+          Her sabah taze açılan durum buğdayı makarnaları, tavada anında pişen özel soslarla kutunda buluşuyor.
+        </p>
+      </div>
+
+      <!-- Category Filter Tabs -->
+      <div class="flex items-center justify-center gap-2 sm:gap-3 flex-wrap mb-12" id="category-tabs">
+        {categories.map((cat, index) => (
+          <button
+            type="button"
+            data-category={cat.id}
+            class={`category-filter-btn px-4 sm:px-6 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+              index === 0
+                ? 'bg-[#FFB800] text-[#0E0E10] shadow-lg shadow-[#FFB800]/20'
+                : 'bg-zinc-900 border border-zinc-800 text-zinc-300 hover:border-zinc-600 hover:text-white'
+            }`}
+          >
+            {cat.name}
+          </button>
+        ))}
+      </div>
+
+      <!-- Menu Items Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="menu-grid">
+        {menuItems.map((item) => (
+          <div data-item-category={item.category} class="menu-item-wrapper">
+            <ProductCard item={item} />
+          </div>
+        ))}
+      </div>
+
+      <!-- Extra Ingredients Info Box -->
+      <div class="mt-16 bg-[#16161C] border border-zinc-800 rounded-2xl p-8 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-8">
+        <div class="space-y-3">
+          <span class="text-xs font-bold uppercase tracking-widest text-[#FFB800]">Kutuya Ekstra Ekle</span>
+          <h2 class="text-2xl font-bold text-white">Makarnanı Kişiselleştir</h2>
+          <p class="text-zinc-400 text-sm max-w-xl">
+            Ekstra parmesan (+25₺), acı jalapeno biber (+15₺), mısır & zeytin (+15₺) veya çıtır soğan parçaları ile kutunu dilediğin gibi zenginleştirebilirsin.
+          </p>
+        </div>
+        <a
+          href="/subeler"
+          class="px-6 py-3.5 rounded-xl bg-[#FFB800] text-[#0E0E10] font-black text-sm hover:bg-[#F59E0B] transition-transform hover:scale-105 shrink-0"
+        >
+          Şubeden Sipariş Ver →
+        </a>
+      </div>
+
+    </div>
+  </div>
+</Layout>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.category-filter-btn');
+  const items = document.querySelectorAll<HTMLElement>('.menu-item-wrapper');
+
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const selectedCat = btn.getAttribute('data-category');
+
+      // Update button styles
+      buttons.forEach((b) => {
+        b.classList.remove('bg-[#FFB800]', 'text-[#0E0E10]', 'shadow-lg', 'shadow-[#FFB800]/20');
+        b.classList.add('bg-zinc-900', 'border', 'border-zinc-800', 'text-zinc-300');
+      });
+      btn.classList.add('bg-[#FFB800]', 'text-[#0E0E10]', 'shadow-lg', 'shadow-[#FFB800]/20');
+      btn.classList.remove('bg-zinc-900', 'border', 'border-zinc-800', 'text-zinc-300');
+
+      // Filter items
+      items.forEach((item) => {
+        const itemCat = item.getAttribute('data-item-category');
+        if (selectedCat === 'tumu' || itemCat === selectedCat) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>

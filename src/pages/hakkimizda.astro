@@ -1,0 +1,91 @@
+---
+import Layout from '../layouts/Layout.astro';
+import StoreFrontFeature from '../components/StoreFrontFeature.astro';
+
+const aboutSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  'name': 'Kutuda Makarna Hakkında',
+  'description': 'Kutuda Makarna neden doğdu? Taze makarna felsefesi, özel kutu teknolojisi ve modern sokak lezzeti vizyonumuz.',
+  'url': 'https://kutudamakarna.com/hakkimizda'
+};
+---
+
+<Layout
+  title="Hakkımızda & Marka Hikayemiz | Kutuda Makarna"
+  description="Kutuda Makarna neden doğdu? Porselen tabakların sınırlarını aşan, 30 dakika sıcak kalan özel kutusunda al dente taze makarna felsefesi."
+  canonical="https://kutudamakarna.com/hakkimizda"
+  activePath="/hakkimizda"
+  schemaJson={aboutSchema}
+>
+  <div class="py-12 lg:py-20 bg-[#0E0E10]">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      
+      <!-- Header -->
+      <div class="text-center space-y-4">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFB800]/10 border border-[#FFB800]/30 text-[#FFB800] text-xs font-bold uppercase tracking-wider">
+          <span>📦 Hikayemiz</span>
+        </div>
+        <h1 class="text-4xl sm:text-5xl font-black text-white tracking-tight font-sans">
+          "LEZZET <span class="text-[#FFB800]">KUTUDA SAKLI!"</span>
+        </h1>
+        <p class="text-zinc-400 text-lg max-w-2xl mx-auto leading-relaxed">
+          Porselen tabakların hantallığına, dakikalarca beklenen restoran hesaplarına ve soğuyan makarnalara veda edin.
+        </p>
+      </div>
+
+      <!-- Narrative Cards -->
+      <div class="space-y-8 text-zinc-300 leading-relaxed text-base">
+        
+        <div class="bg-[#14141A] border border-zinc-800 rounded-3xl p-8 space-y-4">
+          <h2 class="text-2xl font-bold text-white border-l-4 border-[#FFB800] pl-3">
+            Neden Kutu?
+          </h2>
+          <p>
+            Geleneksel restoran anlayışında makarna masaya geldiğinde hızla soğur, sosu kurur ve dibe çöker. Biz bu problemi çözmek için yola çıktık: <strong>Gıda ile temasa uygun, çift katmanlı termo-kutu tasarımı.</strong>
+          </p>
+          <p>
+            Kutumuz, taze makarnanın nemini ve sıcaklığını 30 dakika boyunca ideal seviyede hapseder. Çatalı daldırdığınızda yükselen o sıcak buhar, ilk çataldan son çatala kadar aynı tazeliği garanti eder.
+          </p>
+        </div>
+
+        <div class="bg-[#14141A] border border-zinc-800 rounded-3xl p-8 space-y-4">
+          <h2 class="text-2xl font-bold text-white border-l-4 border-[#FFB800] pl-3">
+            Neden Taze Makarna?
+          </h2>
+          <p>
+            Fabrikasyon, raf ömrü 2 yıl olan kuru makarnalar ile sabah yoğrulan durum buğdayı irmiği hamuru arasında dağlar kadar lezzet farkı vardır. Kutuda Makarna mutfağında un, su ve irmik günlük olarak işlenir. 
+          </p>
+          <p>
+            Kuru makarna 12 dakikada haşlanırken, taze makarnamız 2-3 dakikada mükemmel al dente kıvamına ulaşır. Bu sayede sipariş verdiğiniz andan itibaren kutunuz dakikalar içinde elinizdedir.
+          </p>
+        </div>
+
+        <div class="bg-[#14141A] border border-zinc-800 rounded-3xl p-8 space-y-4">
+          <h2 class="text-2xl font-bold text-white border-l-4 border-[#FFB800] pl-3">
+            Samsun'dan Başlayan Yolculuk
+          </h2>
+          <p>
+            Atakum sahilinde yürüyüş yapan gençlerden, İlkadım Çiftlik'te öğle yemeğine çıkan çalışanlara ve Tekkeköy'deki iş insanlarına kadar herkes için sıcak, kaliteli ve erişilebilir bir gurme deneyim inşa ettik.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Store Visual -->
+      <StoreFrontFeature />
+
+      <!-- CTA -->
+      <div class="pt-8 text-center">
+        <a
+          href="/menu"
+          class="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-[#FFB800] text-[#0E0E10] font-black text-base hover:bg-[#F59E0B] shadow-xl shadow-[#FFB800]/25 transition-transform hover:scale-105"
+        >
+          <span>MENÜYÜ KEŞFET</span>
+          <span>→</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</Layout>

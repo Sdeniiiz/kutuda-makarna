@@ -1,0 +1,290 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import { menuItems, getRelatedMenuItems, type MenuItem } from '../../data/menu';
+import { branches } from '../../data/branches';
+
+export function getStaticPaths() {
+  return menuItems.map((item) => ({
+    params: { slug: item.slug },
+    props: { item },
+  }));
+}
+
+interface Props {
+  item: MenuItem;
+}
+
+const { item } = Astro.props;
+const relatedItems = getRelatedMenuItems(item.slug, 3);
+
+// JSON-LD Product & MenuItem Schema
+const productSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  'name': item.name,
+  'image': `https://kutudamakarna.com${item.image}`,
+  'description': item.description,
+  'brand': {
+    '@type': 'Brand',
+    'name': 'Kutuda Makarna'
+  },
+  'offers': {
+    '@type': 'Offer',
+    'url': `https://kutudamakarna.com/menu/${item.slug}`,
+    'priceCurrency': 'TRY',
+    'price': item.price,
+    'priceValidUntil': '2026-12-31',
+    'itemCondition': 'https://schema.org/NewCondition',
+    'availability': 'https://schema.org/InStock',
+    'seller': {
+      '@type': 'Organization',
+      'name': 'Kutuda Makarna'
+    }
+  }
+};
+
+// Breadcrumb Schema
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  'itemListElement': [
+    {
+      '@type': 'ListItem',
+      'position': 1,
+      'name': 'Ana Sayfa',
+      'item': 'https://kutudamakarna.com/'
+    },
+    {
+      '@type': 'ListItem',
+      'position': 2,
+      'name': 'Menü',
+      'item': 'https://kutudamakarna.com/menu'
+    },
+    {
+      '@type': 'ListItem',
+      'position': 3,
+      'name': item.name,
+      'item': `https://kutudamakarna.com/menu/${item.slug}`
+    }
+  ]
+};
+---
+
+<Layout
+  title={`${item.name} | Kutuda Makarna Fiyat & İçerik`}
+  description={`${item.name}: ${item.shortDescription} Taze durum hamuru, özel sıcak kutusunda al dente lezzet.`}
+  canonical={`https://kutudamakarna.com/menu/${item.slug}`}
+  activePath="/menu"
+  schemaJson={[productSchema, breadcrumbSchema]}
+>
+  <div class="py-10 lg:py-16 bg-[#0E0E10]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Breadcrumb Navigation -->
+      <nav aria-label="Breadcrumb" class="mb-8 text-xs font-semibold text-zinc-400">
+        <ol class="flex items-center gap-2 flex-wrap">
+          <li><a href="/" class="hover:text-[#FFB800] transition-colors">Ana Sayfa</a></li>
+          <li><span>/</span></li>
+          <li><a href="/menu" class="hover:text-[#FFB800] transition-colors">Menü</a></li>
+          <li><span>/</span></li>
+          <li class="text-[#FFB800] truncate max-w-xs">{item.name}</li>
+        </ol>
+      </nav>
+
+      <!-- Main Product Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        
+        <!-- Left: Product Presentation Box -->
+        <div class="lg:col-span-6 space-y-6">
+          <div class="relative w-full aspect-square rounded-3xl bg-gradient-to-b from-[#181820] to-[#101014] border-2 border-[rgba(255,184,0,0.3)] shadow-2xl p-8 flex flex-col items-center justify-center overflow-hidden">
+            <!-- Backlight Glow -->
+            <div class="absolute inset-0 bg-radial from-[#FFB800]/15 via-transparent to-transparent"></div>
+
+            <!-- Rising Steam Lines -->
+            <div class="absolute top-10 flex gap-6 pointer-events-none">
+              <svg class="w-8 h-16 text-zinc-400 animate-steam-1" viewBox="0 0 24 60" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 55 C 6 45, 18 35, 12 25 C 6 15, 18 5, 12 0" />
+              </svg>
+              <svg class="w-8 h-16 text-zinc-300 animate-steam-2" viewBox="0 0 24 60" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 55 C 18 45, 6 35, 12 25 C 18 15, 6 5, 12 0" />
+              </svg>
+            </div>
+
+            <!-- Stylized Dish / Box -->
+            <div class="relative z-10 w-64 h-64 flex flex-col items-center justify-center text-center">
+              <div class="w-36 h-36 rounded-3xl bg-[#FFB800] text-[#0E0E10] font-black text-6xl flex items-center justify-center shadow-2xl shadow-[#FFB800]/30 transform -rotate-2 hover:rotate-0 transition-transform">
+                {item.category === 'kremali' ? '🍝' : item.category === 'domatesli' ? '🍅' : item.category === 'yan-urun' ? '🍰' : '🌿'}
+              </div>
+              <span class="mt-4 text-xs font-black uppercase tracking-widest text-[#FFB800] bg-zinc-900 px-3 py-1 rounded-full border border-zinc-700">
+                {item.pastaType}
+              </span>
+            </div>
+
+            <!-- Bottom Thermal Box Badge -->
+            <div class="absolute bottom-4 left-6 right-6 bg-zinc-900/90 backdrop-blur-md border border-zinc-800 rounded-xl px-4 py-3 flex items-center justify-between text-xs">
+              <span class="text-zinc-300 font-medium">🌡️ Sıcaklık Koruması:</span>
+              <span class="text-[#FFB800] font-bold">30 Dk Sıcacık</span>
+            </div>
+          </div>
+
+          <!-- Pairing Recommendation Callout -->
+          <div class="bg-[#14141A] border border-zinc-800 rounded-2xl p-5 flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-[#FFB800]/10 border border-[#FFB800]/30 flex items-center justify-center text-xl shrink-0">
+              💡
+            </div>
+            <div>
+              <div class="text-xs font-bold text-[#FFB800] uppercase tracking-wider">Şefin Eşleşme Önerisi</div>
+              <p class="text-xs text-zinc-300 mt-0.5">{item.pairingRecommendation}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Specs, Story, Ingredients, Allergens, CTA -->
+        <div class="lg:col-span-6 space-y-8">
+          
+          <!-- Title & Badges -->
+          <div>
+            <div class="flex items-center gap-2 mb-3">
+              {item.badge && (
+                <span class="px-3 py-1 rounded-full text-xs font-bold bg-[#FFB800]/15 text-[#FFB800] border border-[#FFB800]/30 uppercase tracking-wide">
+                  {item.badge}
+                </span>
+              )}
+              {item.isVegetarian && (
+                <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-950 text-emerald-400 border border-emerald-800">
+                  Vejetaryen 🌱
+                </span>
+              )}
+              {item.spicyLevel > 0 && (
+                <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-red-950 text-red-400 border border-red-800">
+                  {'🌶️'.repeat(item.spicyLevel)} Acılı
+                </span>
+              )}
+            </div>
+
+            <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight font-sans">
+              {item.name}
+            </h1>
+            <p class="text-zinc-400 text-sm sm:text-base mt-3 leading-relaxed">
+              {item.shortDescription}
+            </p>
+          </div>
+
+          <!-- Price & Metrics Bar -->
+          <div class="bg-[#16161C] border border-zinc-800 rounded-2xl p-5 grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div>
+              <span class="text-xs text-zinc-500 block">Fiyat</span>
+              <span class="text-2xl font-black text-white">{item.price} <span class="text-sm text-[#FFB800]">₺</span></span>
+            </div>
+            <div>
+              <span class="text-xs text-zinc-500 block">Porsiyon</span>
+              <span class="text-base font-bold text-zinc-200">{item.portionGrams} gram</span>
+            </div>
+            <div>
+              <span class="text-xs text-zinc-500 block">Enerji</span>
+              <span class="text-base font-bold text-zinc-200">{item.calories} kcal</span>
+            </div>
+            <div>
+              <span class="text-xs text-zinc-500 block">Hazırlık</span>
+              <span class="text-base font-bold text-emerald-400">⏱️ {item.prepTimeMinutes} dk</span>
+            </div>
+          </div>
+
+          <!-- Culinary Story -->
+          <div class="space-y-3">
+            <h2 class="text-lg font-bold text-white uppercase tracking-wider border-l-2 border-[#FFB800] pl-2">
+              Lezzet Hikayesi & Sos Karakteri
+            </h2>
+            <p class="text-sm text-zinc-300 leading-relaxed">
+              {item.description}
+            </p>
+            <p class="text-xs text-zinc-400 italic">
+              <strong>Sos Detayı:</strong> {item.sauceDetails}
+            </p>
+          </div>
+
+          <!-- Ingredients List -->
+          <div class="space-y-3">
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider">İçindekiler</h3>
+            <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-zinc-300">
+              {item.ingredients.map((ing) => (
+                <li class="flex items-center gap-2 bg-zinc-900/60 p-2 rounded-lg border border-zinc-800/80">
+                  <span class="text-[#FFB800]">✓</span>
+                  <span>{ing}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <!-- Allergens -->
+          {item.allergens.length > 0 && (
+            <div class="bg-amber-950/20 border border-amber-800/40 rounded-xl p-4 space-y-1">
+              <span class="text-xs font-bold text-amber-400 uppercase tracking-wide">⚠️ Alerjen Uyarısı</span>
+              <p class="text-xs text-zinc-300">
+                Bu ürün şu alerjenleri içerir: <strong>{item.allergens.join(', ')}</strong>. Çapraz bulaşma riski için lütfen şube personelimize danışınız.
+              </p>
+            </div>
+          )}
+
+          <!-- Branch Availability (Local SEO Links) -->
+          <div class="bg-[#141418] border border-zinc-800 rounded-xl p-5 space-y-3">
+            <div class="flex items-center justify-between">
+              <h3 class="text-xs font-bold text-white uppercase tracking-wider">Şubelerde Bulunabilirlik</h3>
+              <span class="text-xs text-emerald-400 font-semibold">● Tüm Şubelerde Mevcut</span>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              {branches.map((b) => (
+                <a
+                  href={`/subeler/${b.slug}`}
+                  class="px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-xs text-zinc-300 hover:text-white transition-colors"
+                >
+                  📍 {b.name}
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <!-- CTAs -->
+          <div class="flex flex-col sm:flex-row gap-4 pt-2">
+            <a
+              href="/subeler"
+              class="flex-1 text-center py-4 rounded-xl bg-[#FFB800] text-[#0E0E10] font-black text-sm hover:bg-[#F59E0B] shadow-lg shadow-[#FFB800]/20 transition-transform hover:scale-105"
+            >
+              EN YAKIN ŞUBEDEN AL →
+            </a>
+            <a
+              href="/menu"
+              class="px-6 py-4 rounded-xl border border-zinc-700 text-zinc-300 hover:text-white text-sm font-bold text-center transition-colors hover:bg-zinc-800"
+            >
+              Tüm Menüye Dön
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Related Products -->
+      {relatedItems.length > 0 && (
+        <section class="mt-24 pt-16 border-t border-zinc-900">
+          <div class="flex items-center justify-between mb-8">
+            <h2 class="text-2xl font-black text-white font-sans">
+              BUNU SEVENLER <span class="text-[#FFB800]">BUNLARI DA DENEDİ</span>
+            </h2>
+            <a href="/menu" class="text-xs font-bold text-[#FFB800] hover:underline">
+              Tümünü Gör →
+            </a>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {relatedItems.map((rItem) => (
+              <ProductCard item={rItem} />
+            ))}
+          </div>
+        </section>
+      )}
+
+    </div>
+  </div>
+</Layout>

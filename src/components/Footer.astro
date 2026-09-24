@@ -1,0 +1,121 @@
+---
+import { branches } from '../data/branches';
+---
+
+<footer class="bg-[#0A0A0C] border-t border-[rgba(255,184,0,0.12)] text-zinc-400 text-sm">
+  <!-- Top Highlight Bar -->
+  <div class="border-b border-zinc-900 py-8 bg-[#0E0E12]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-4">
+        <div class="w-12 h-12 rounded-2xl bg-[#FFB800]/10 border border-[#FFB800]/30 flex items-center justify-center text-[#FFB800]">
+          <span class="text-2xl">📦</span>
+        </div>
+        <div>
+          <h3 class="text-white font-bold text-lg">Canın Sıcak Bir Kutu Makarna mı Çekti?</h3>
+          <p class="text-zinc-400 text-xs sm:text-sm">Taze makarna, yoğun sos ve sıcacık lezzet seni bekliyor.</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <a
+          href="/menu"
+          class="px-6 py-2.5 rounded-full bg-[#FFB800] text-[#0E0E10] font-bold text-sm hover:bg-[#F59E0B] transition-all hover:scale-105"
+        >
+          Menüyü İncele
+        </a>
+        <a
+          href="/subeler"
+          class="px-6 py-2.5 rounded-full border border-zinc-700 hover:border-[#FFB800] text-white font-semibold text-sm transition-all"
+        >
+          Şubeleri Gör
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
+    <!-- Col 1: Brand & Philosophy -->
+    <div class="lg:col-span-2 space-y-4">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-lg bg-[#FFB800] flex items-center justify-center text-[#0E0E10] font-black text-sm">
+          KM
+        </div>
+        <span class="text-white font-extrabold text-lg tracking-wider uppercase">Kutuda <span class="text-[#FFB800]">Makarna</span></span>
+      </div>
+      <p class="text-zinc-400 text-sm leading-relaxed max-w-sm">
+        Taze durum buğdayı irmiğinden hazırlanan günlük el yapımı makarnalarımız, anında sipariş üzerine tavada pişen gurme soslarla kutuda buluşuyor. Sokakta, sahilde, ofiste; al dente lezzet her an seninle.
+      </p>
+      <div class="pt-2 flex items-center gap-4 text-xs text-zinc-500">
+        <span class="inline-flex items-center gap-1.5 text-zinc-300">
+          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+          Taze Günlük Üretim
+        </span>
+        <span class="inline-flex items-center gap-1.5 text-zinc-300">
+          <span class="w-2 h-2 rounded-full bg-[#FFB800]"></span>
+          %100 Doğal Malzeme
+        </span>
+      </div>
+    </div>
+
+    <!-- Col 2: Hızlı Menü -->
+    <div>
+      <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4 border-l-2 border-[#FFB800] pl-2">Menümüz</h4>
+      <ul class="space-y-2.5 text-sm">
+        <li><a href="/menu/kremali-mantarli-makarna" class="hover:text-[#FFB800] transition-colors">Kremalı Mantarlı</a></li>
+        <li><a href="/menu/bolonez-makarna" class="hover:text-[#FFB800] transition-colors">Geleneksel Bolonez</a></li>
+        <li><a href="/menu/acili-arrabbiata-makarna" class="hover:text-[#FFB800] transition-colors">Acılı Arrabbiata</a></li>
+        <li><a href="/menu/pesto-makarna" class="hover:text-[#FFB800] transition-colors">Taze Fesleğenli Pesto</a></li>
+        <li><a href="/menu/dort-peynirli-makarna" class="hover:text-[#FFB800] transition-colors">Dört Peynirli Gurme</a></li>
+        <li><a href="/menu" class="text-[#FFB800] hover:underline font-semibold pt-1 inline-block">Tüm Menüyü Gör →</a></li>
+      </ul>
+    </div>
+
+    <!-- Col 3: Şubelerimiz (Local SEO Links) -->
+    <div>
+      <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4 border-l-2 border-[#FFB800] pl-2">Şubelerimiz</h4>
+      <ul class="space-y-3 text-sm">
+        {branches.map((b) => (
+          <li>
+            <a href={`/subeler/${b.slug}`} class="group block">
+              <span class="text-white font-medium group-hover:text-[#FFB800] transition-colors">{b.name}</span>
+              <span class="block text-xs text-zinc-500">{b.district} / {b.city}</span>
+            </a>
+          </li>
+        ))}
+        <li><a href="/subeler" class="text-[#FFB800] hover:underline font-semibold text-xs inline-block">Harita & Yol Tarifi →</a></li>
+      </ul>
+    </div>
+
+    <!-- Col 4: Rehber & Kurumsal -->
+    <div>
+      <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4 border-l-2 border-[#FFB800] pl-2">Keşfet & İletişim</h4>
+      <ul class="space-y-2.5 text-sm">
+        <li><a href="/makarna" class="hover:text-[#FFB800] transition-colors">Makarna Kültürü & Rehber</a></li>
+        <li><a href="/makarna/al-dente-nedir" class="hover:text-[#FFB800] transition-colors">Al Dente Nedir?</a></li>
+        <li><a href="/makarna/makarna-cesitleri" class="hover:text-[#FFB800] transition-colors">Makarna ve Sos Uyumu</a></li>
+        <li><a href="/hakkimizda" class="hover:text-[#FFB800] transition-colors">Neden Kutuda?</a></li>
+        <li><a href="/iletisim" class="hover:text-[#FFB800] transition-colors">Franchise & İletişim</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Bottom Legal & Social -->
+  <div class="border-t border-zinc-900 py-6 bg-[#08080A]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
+      <p>© {new Date().getFullYear()} Kutuda Makarna. Tüm hakları saklıdır. "Hayat kısa, makarna iyi gelir."</p>
+
+      <div class="flex items-center gap-6">
+        <a href="/iletisim" class="hover:text-zinc-300 transition-colors">KVKK Aydınlatma Metni</a>
+        <a href="/iletisim" class="hover:text-zinc-300 transition-colors">Çerez Politikası</a>
+        <a
+          href="https://instagram.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-zinc-400 hover:text-[#FFB800] transition-colors flex items-center gap-1.5 font-medium"
+        >
+          <span>Instagram</span>
+          <span>↗</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>

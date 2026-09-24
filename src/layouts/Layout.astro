@@ -1,0 +1,110 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string;
+  ogImage?: string;
+  ogType?: string;
+  activePath?: string;
+  schemaJson?: Record<string, any> | Array<Record<string, any>>;
+}
+
+const {
+  title = 'Kutuda Makarna | Taze Makarna & Özel Soslar',
+  description = 'Kutuda Makarna ile taze makarna, bol sos ve kutuya sığmayan lezzet! Samsun Atakum, İlkadım ve Tekkeköy şubelerimizde sıcacık al dente lezzet.',
+  canonical = Astro.url.href,
+  ogImage = '/images/store-front.jpg',
+  ogType = 'website',
+  activePath = Astro.url.pathname,
+  schemaJson
+} = Astro.props;
+
+// Base Organization Schema
+const defaultOrganizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  'name': 'Kutuda Makarna',
+  'alternateName': 'Kutuda Makarna Türkiye',
+  'url': 'https://kutudamakarna.com',
+  'logo': 'https://kutudamakarna.com/images/logo.png',
+  'slogan': 'Lezzet Kutuda Saklı!',
+  'sameAs': [
+    'https://www.instagram.com/kutudamakarna'
+  ],
+  'contactPoint': {
+    '@type': 'ContactPoint',
+    'telephone': '+90-362-500-0101',
+    'contactType': 'customer service',
+    'areaServed': 'TR',
+    'availableLanguage': 'Turkish'
+  }
+};
+
+const schemasToInject = schemaJson
+  ? Array.isArray(schemaJson)
+    ? [defaultOrganizationSchema, ...schemaJson]
+    : [defaultOrganizationSchema, schemaJson]
+  : [defaultOrganizationSchema];
+---
+
+<!doctype html>
+<html lang="tr" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#FFB800" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:site_name" content="Kutuda Makarna" />
+    <meta property="og:locale" content="tr_TR" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FFB800'><path d='M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z'/></svg>" />
+
+    <!-- Preconnect & Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+    <!-- Structured Data (JSON-LD) -->
+    {schemasToInject.map((s) => (
+      <script type="application/ld+json" set:html={JSON.stringify(s)} />
+    ))}
+  </head>
+  <body class="min-h-screen flex flex-col bg-[#0E0E10] text-[#F3F4F6] selection:bg-[#FFB800] selection:text-[#0E0E10]">
+    <!-- Accessibility: Skip to Main Content -->
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#FFB800] focus:text-[#0E0E10] focus:font-bold focus:rounded-lg focus:shadow-xl"
+    >
+      İçeriğe Atla
+    </a>
+
+    <Header activePath={activePath} />
+
+    <main id="main-content" class="flex-1">
+      <slot />
+    </main>
+
+    <Footer />
+  </body>
+</html>
