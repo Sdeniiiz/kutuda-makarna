@@ -1,0 +1,932 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout
+  title="Yönetici Paneli | Kutuda Makarna HQ"
+  description="Kutuda Makarna Franchise ve Şube Yönetim Portalı."
+  canonical="https://kutudamakarna.com/admin"
+  activePath="/admin"
+>
+  <div id="admin-app" class="min-h-screen bg-[#0E1217] text-stone-100 py-10 px-4 sm:px-6 lg:px-8">
+    
+    <!-- ========================================== -->
+    <!-- 01: PIN GİRİŞ EKRANI (GİRİŞ YAPILMAMIŞSA) -->
+    <!-- ========================================== -->
+    <div id="login-screen" class="max-w-md mx-auto my-16 bg-[#161B22] border border-stone-800 rounded-3xl p-8 shadow-2xl space-y-6">
+      <div class="text-center space-y-3">
+        <div class="w-16 h-16 rounded-2xl bg-[#FFB800]/10 border border-[#FFB800]/30 text-[#FFB800] flex items-center justify-center mx-auto text-2xl font-black">
+          🔒
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-black uppercase tracking-tight text-white font-sans">
+          YÖNETİCİ GİRİŞİ
+        </h1>
+        <p class="text-xs sm:text-sm text-stone-400">
+          Kutuda Makarna Genel Merkez Franchise Yönetim Portalı. Devam etmek için erişim şifrenizi girin.
+        </p>
+      </div>
+
+      <form id="pin-form" class="space-y-4">
+        <div>
+          <label for="admin-pin" class="block text-xs font-bold uppercase tracking-wider text-stone-300 mb-1.5">
+            Erişim Şifresi / PIN
+          </label>
+          <input
+            type="password"
+            id="admin-pin"
+            placeholder="Şifreyi giriniz (Varsayılan: km2026)"
+            required
+            autocomplete="current-password"
+            class="w-full px-4 py-3.5 rounded-xl bg-[#0E1217] border border-stone-700 text-white text-sm font-mono placeholder:text-stone-600 focus:outline-none focus:border-[#FFB800] focus:ring-1 focus:ring-[#FFB800]"
+          />
+          <p id="login-error" class="hidden text-xs text-rose-400 mt-2 font-medium">
+            ❌ Hatalı şifre girdiniz. Lütfen tekrar deneyin.
+          </p>
+        </div>
+
+        <button
+          type="submit"
+          class="w-full py-4 rounded-xl bg-[#FFB800] hover:bg-[#F59E0B] text-[#1C1917] font-black text-xs uppercase tracking-widest shadow-lg shadow-amber-500/10 transition-all hover:scale-102 active:scale-98 cursor-pointer"
+        >
+          Panele Giriş Yap →
+        </button>
+      </form>
+
+      <div class="p-3.5 bg-amber-500/10 border border-amber-500/20 rounded-xl text-center">
+        <span class="text-[11px] font-mono text-amber-300 font-semibold">
+          💡 Demo Erişim PIN: <span class="bg-black/40 px-2 py-0.5 rounded text-amber-200 font-bold">km2026</span>
+        </span>
+      </div>
+
+      <div class="text-center pt-2">
+        <a href="/" class="text-xs text-stone-500 hover:text-stone-300 transition-colors">
+          ← Web Sitesine Geri Dön
+        </a>
+      </div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- 02: YÖNETİM PANELİ DASHBOARD (GİRİŞ YAPILDIĞINDA) -->
+    <!-- ========================================== -->
+    <div id="dashboard-screen" class="hidden max-w-7xl mx-auto space-y-8">
+      
+      <!-- Top Bar / Nav -->
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-6 border-b border-stone-800">
+        <div>
+          <div class="flex items-center gap-3">
+            <span class="px-2.5 py-1 rounded-md bg-[#FFB800] text-[#1C1917] text-[10px] font-black uppercase tracking-wider">
+              HQ PORTAL
+            </span>
+            <span class="text-xs text-stone-400 font-mono" id="live-time-display">
+              Canlı Sistem
+            </span>
+          </div>
+          <h1 class="text-2xl sm:text-3xl font-black text-white tracking-tight mt-1 uppercase">
+            FRANCHISE BAŞVURU YÖNETİMİ
+          </h1>
+          <p class="text-xs text-stone-400">
+            Tüm şehirlerden gelen yatırımcı başvurularını inceleyin, durumlarını güncelleyin ve arşivleyin.
+          </p>
+        </div>
+
+        <div class="flex items-center flex-wrap gap-2.5">
+          <button
+            id="export-csv-btn"
+            class="px-4 py-2.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 text-xs font-bold transition-all flex items-center gap-2 cursor-pointer"
+          >
+            <span>📥</span>
+            <span>Excel / CSV İndir</span>
+          </button>
+          
+          <button
+            id="reset-mock-btn"
+            title="Demo başvuru verilerini sıfırla/tazele"
+            class="px-3.5 py-2.5 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-300 text-xs font-semibold transition-all cursor-pointer"
+          >
+            🔄 Verileri Tazele
+          </button>
+
+          <a
+            href="/"
+            class="px-3.5 py-2.5 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-300 text-xs font-semibold transition-all"
+          >
+            🌐 Siteyi Aç
+          </a>
+
+          <button
+            id="logout-btn"
+            class="px-3.5 py-2.5 rounded-xl bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 border border-rose-800/40 text-xs font-bold transition-all cursor-pointer"
+          >
+            Çıkış ✕
+          </button>
+        </div>
+      </div>
+
+      <!-- KPI Metric Cards -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <!-- Total Applications -->
+        <div class="p-5 rounded-2xl bg-[#161B22] border border-stone-800 space-y-1">
+          <span class="text-xs font-bold uppercase tracking-wider text-stone-400">Toplam Başvuru</span>
+          <div class="flex items-baseline justify-between">
+            <span id="metric-total" class="text-3xl sm:text-4xl font-black text-white font-mono">0</span>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-stone-800 text-stone-300">Portföy</span>
+          </div>
+          <span class="text-[11px] text-stone-500 block">Sistemde kayıtlı toplam aday</span>
+        </div>
+
+        <!-- Pending / New -->
+        <div class="p-5 rounded-2xl bg-[#161B22] border border-stone-800 space-y-1">
+          <span class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+            Yeni & Bekleyen
+          </span>
+          <div class="flex items-baseline justify-between">
+            <span id="metric-new" class="text-3xl sm:text-4xl font-black text-amber-400 font-mono">0</span>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400">Öncelikli</span>
+          </div>
+          <span class="text-[11px] text-stone-500 block">48 saat içinde aranacaklar</span>
+        </div>
+
+        <!-- In Review / Approved -->
+        <div class="p-5 rounded-2xl bg-[#161B22] border border-stone-800 space-y-1">
+          <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Görüşülen / Onaylanan</span>
+          <div class="flex items-baseline justify-between">
+            <span id="metric-progress" class="text-3xl sm:text-4xl font-black text-emerald-400 font-mono">0</span>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400">Aktif Süreç</span>
+          </div>
+          <span class="text-[11px] text-stone-500 block">Müzakere veya onay aşamasında</span>
+        </div>
+
+        <!-- Total Capital Pipeline -->
+        <div class="p-5 rounded-2xl bg-[#161B22] border border-stone-800 space-y-1">
+          <span class="text-xs font-bold uppercase tracking-wider text-blue-400">Yatırım Havuzu</span>
+          <div class="flex items-baseline justify-between">
+            <span id="metric-capital" class="text-2xl sm:text-3xl font-black text-white font-mono">₺0M</span>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400">Tahmini</span>
+          </div>
+          <span class="text-[11px] text-stone-500 block">Adayların beyan ettiği sermaye</span>
+        </div>
+
+      </div>
+
+      <!-- Controls: Search & Filters -->
+      <div class="p-4 rounded-2xl bg-[#161B22] border border-stone-800 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
+        
+        <!-- Search Input -->
+        <div class="relative flex-1">
+          <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-500 text-sm">🔍</span>
+          <input
+            type="text"
+            id="search-input"
+            placeholder="İsim, telefon, şehir veya takip kodu ara..."
+            class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#0E1217] border border-stone-700 text-white text-xs sm:text-sm placeholder:text-stone-500 focus:outline-none focus:border-[#FFB800]"
+          />
+        </div>
+
+        <!-- Filters -->
+        <div class="flex items-center gap-2.5">
+          <select
+            id="filter-city"
+            class="px-3 py-2.5 rounded-xl bg-[#0E1217] border border-stone-700 text-white text-xs font-semibold focus:outline-none focus:border-[#FFB800]"
+          >
+            <option value="all">Tüm Şehirler</option>
+            <option value="İstanbul">İstanbul</option>
+            <option value="Samsun">Samsun</option>
+            <option value="Ankara">Ankara</option>
+            <option value="İzmir">İzmir</option>
+            <option value="Bursa">Bursa</option>
+            <option value="Antalya">Antalya</option>
+            <option value="Diğer">Diğer Şehirler</option>
+          </select>
+
+          <select
+            id="filter-status"
+            class="px-3 py-2.5 rounded-xl bg-[#0E1217] border border-stone-700 text-white text-xs font-semibold focus:outline-none focus:border-[#FFB800]"
+          >
+            <option value="all">Tüm Durumlar</option>
+            <option value="Yeni">Yeni</option>
+            <option value="Görüşme Planlandı">Görüşme Planlandı</option>
+            <option value="Değerlendirmede">Değerlendirmede</option>
+            <option value="Onaylandı">Onaylandı</option>
+            <option value="Reddedildi">Reddedildi</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- Applications Table -->
+      <div class="bg-[#161B22] border border-stone-800 rounded-3xl overflow-hidden shadow-xl">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs text-stone-300">
+            <thead class="bg-[#1F242C] text-stone-400 font-bold uppercase tracking-wider text-[10px] border-b border-stone-800">
+              <tr>
+                <th scope="col" class="py-4 px-4 sm:px-6">Kod & Tarih</th>
+                <th scope="col" class="py-4 px-4">Yatırımcı Adayı</th>
+                <th scope="col" class="py-4 px-4">Hedef Lokasyon</th>
+                <th scope="col" class="py-4 px-4">Bütçe & Tecrübe</th>
+                <th scope="col" class="py-4 px-4">Başvuru Durumu</th>
+                <th scope="col" class="py-4 px-4 text-right">İşlemler</th>
+              </tr>
+            </thead>
+            <tbody id="applications-table-body" class="divide-y divide-stone-800 font-normal">
+              <!-- Dynamically populated via JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Empty state placeholder -->
+        <div id="table-empty-state" class="hidden py-16 text-center space-y-3">
+          <div class="text-4xl">📂</div>
+          <h3 class="text-base font-bold text-white">Kayıt Bulunamadı</h3>
+          <p class="text-xs text-stone-400 max-w-sm mx-auto">
+            Arama kriterlerinize uygun başvuru bulunmamaktadır. Filtreleri temizleyebilir veya yeni başvuru ekleyebilirsiniz.
+          </p>
+        </div>
+      </div>
+
+      <!-- Bottom Reference Section: Active Branches Snapshot -->
+      <div class="p-6 rounded-3xl bg-[#161B22] border border-stone-800 space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-sm font-black uppercase text-white tracking-wide">
+              Mevcut Şube Ağı (8 Aktif Şube)
+            </h3>
+            <p class="text-xs text-stone-400">
+              Franchise adaylarına sunulan mevcut bölgesel operasyon ağı.
+            </p>
+          </div>
+          <span class="text-xs font-mono font-bold text-amber-400">8 Şube / 6 Şehir</span>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 text-xs">
+          <div class="p-3 rounded-xl bg-[#0E1217] border border-stone-800 space-y-1">
+            <span class="text-white font-bold block">Samsun Atakum</span>
+            <span class="text-[10px] text-emerald-400 font-mono">● Açık (Merkez Şube)</span>
+          </div>
+          <div class="p-3 rounded-xl bg-[#0E1217] border border-stone-800 space-y-1">
+            <span class="text-white font-bold block">Samsun İlkadım</span>
+            <span class="text-[10px] text-emerald-400 font-mono">● Açık (Cadde)</span>
+          </div>
+          <div class="p-3 rounded-xl bg-[#0E1217] border border-stone-800 space-y-1">
+            <span class="text-white font-bold block">Samsun Tekkeköy</span>
+            <span class="text-[10px] text-emerald-400 font-mono">● Açık (AVM & Sanayi)</span>
+          </div>
+          <div class="p-3 rounded-xl bg-[#0E1217] border border-stone-800 space-y-1">
+            <span class="text-white font-bold block">İstanbul Kadıköy</span>
+            <span class="text-[10px] text-emerald-400 font-mono">● Açık (Moda / Rıhtım)</span>
+          </div>
+          <div class="p-3 rounded-xl bg-[#0E1217] border border-stone-800 space-y-1">
+            <span class="text-white font-bold block">İstanbul Beşiktaş</span>
+            <span class="text-[10px] text-emerald-400 font-mono">● Açık (Çarşı / Kampüs)</span>
+          </div>
+          <div class="p-3 rounded-xl bg-[#0E1217] border border-stone-800 space-y-1">
+            <span class="text-white font-bold block">Ankara Çankaya</span>
+            <span class="text-[10px] text-emerald-400 font-mono">● Açık (Tunalı / Kızılay)</span>
+          </div>
+          <div class="p-3 rounded-xl bg-[#0E1217] border border-stone-800 space-y-1">
+            <span class="text-white font-bold block">İzmir Karşıyaka</span>
+            <span class="text-[10px] text-emerald-400 font-mono">● Açık (Çarşı / Sahil)</span>
+          </div>
+          <div class="p-3 rounded-xl bg-[#0E1217] border border-stone-800 space-y-1">
+            <span class="text-white font-bold block">Bursa Nilüfer</span>
+            <span class="text-[10px] text-emerald-400 font-mono">● Açık (FSM Bulvarı)</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 03: BAŞVURU DETAY MODAL -->
+    <!-- ========================================== -->
+    <div id="detail-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+      <div class="bg-[#161B22] border border-stone-700 w-full max-w-2xl rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+        
+        <button
+          id="close-modal-btn"
+          class="absolute top-6 right-6 w-9 h-9 rounded-full bg-stone-800 text-stone-400 hover:text-white flex items-center justify-center text-sm font-black transition-colors cursor-pointer"
+        >
+          ✕
+        </button>
+
+        <div class="space-y-1">
+          <div class="flex items-center gap-2">
+            <span id="modal-app-code" class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-amber-500/20 text-[#FFB800]">#FR-KM-2026-XXXX</span>
+            <span id="modal-app-date" class="text-xs text-stone-400 font-mono">Tarih</span>
+          </div>
+          <h2 id="modal-app-name" class="text-2xl font-black text-white">Yatırımcı Adı</h2>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+          <div class="p-4 rounded-xl bg-[#0E1217] border border-stone-800 space-y-1">
+            <span class="text-stone-400 uppercase tracking-wider font-bold text-[10px]">İletişim</span>
+            <div class="space-y-1 pt-1">
+              <div>📞 <a id="modal-app-phone" href="#" class="text-amber-400 hover:underline font-mono">Telefon</a></div>
+              <div>✉️ <a id="modal-app-email" href="#" class="text-stone-200 hover:underline font-mono">E-posta</a></div>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-[#0E1217] border border-stone-800 space-y-1">
+            <span class="text-stone-400 uppercase tracking-wider font-bold text-[10px]">Hedef Lokasyon</span>
+            <div class="space-y-1 pt-1">
+              <div class="text-white font-bold" id="modal-app-location">Şehir / İlçe</div>
+              <div class="text-stone-400" id="modal-app-location-type">Mekan Tipi: Cadde</div>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-[#0E1217] border border-stone-800 space-y-1">
+            <span class="text-stone-400 uppercase tracking-wider font-bold text-[10px]">Yatırım Bütçesi</span>
+            <div class="text-white font-bold text-sm pt-1" id="modal-app-budget">2.500.000 TL - 4.000.000 TL</div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-[#0E1217] border border-stone-800 space-y-1">
+            <span class="text-stone-400 uppercase tracking-wider font-bold text-[10px]">Yeme-İçme Tecrübesi</span>
+            <div class="text-white font-bold pt-1" id="modal-app-experience">Daha önce restoran işletti</div>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-[#0E1217] border border-stone-800 space-y-2 text-xs">
+          <span class="text-stone-400 uppercase tracking-wider font-bold text-[10px] block">Adayın Notu & Mesajı</span>
+          <p id="modal-app-message" class="text-stone-300 leading-relaxed font-light italic">
+            Mesaj bulunmuyor.
+          </p>
+        </div>
+
+        <!-- Quick Status Update in Modal -->
+        <div class="flex items-center justify-between pt-4 border-t border-stone-800">
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-stone-400 font-bold">Durum Değiştir:</span>
+            <select
+              id="modal-status-select"
+              class="px-3 py-1.5 rounded-lg bg-[#0E1217] border border-stone-700 text-white text-xs font-semibold focus:outline-none focus:border-[#FFB800]"
+            >
+              <option value="Yeni">Yeni</option>
+              <option value="Görüşme Planlandı">Görüşme Planlandı</option>
+              <option value="Değerlendirmede">Değerlendirmede</option>
+              <option value="Onaylandı">Onaylandı</option>
+              <option value="Reddedildi">Reddedildi</option>
+            </select>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <a
+              id="modal-quick-call"
+              href="#"
+              class="px-4 py-2 rounded-xl bg-[#FFB800] text-[#1C1917] font-bold text-xs hover:bg-[#F59E0B] transition-colors"
+            >
+              Hemen Ara
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</Layout>
+
+<script>
+  interface Application {
+    id: string;
+    code: string;
+    date: string;
+    name: string;
+    phone: string;
+    email: string;
+    city: string;
+    district: string;
+    budget: string;
+    locationType: string;
+    experience: string;
+    message: string;
+    status: 'Yeni' | 'Görüşme Planlandı' | 'Değerlendirmede' | 'Onaylandı' | 'Reddedildi';
+  }
+
+  const DEFAULT_APPLICATIONS: Application[] = [
+    {
+      id: 'app_seed_1',
+      code: '#FR-KM-2026-9281',
+      date: new Date(Date.now() - 1000 * 60 * 35).toISOString(), // 35 min ago
+      name: 'Murat Demir',
+      phone: '0 (532) 412 88 19',
+      email: 'murat.demir@invest.com',
+      city: 'İstanbul',
+      district: 'Kadıköy',
+      budget: '4m-plus',
+      locationType: 'cadde',
+      experience: 'var',
+      message: 'Moda Caddesi üzerinde 120m2 boş dükkanımız mevcut. Hazır mutfak altyapısı var. Hızlıca görüşmek istiyoruz.',
+      status: 'Yeni'
+    },
+    {
+      id: 'app_seed_2',
+      code: '#FR-KM-2026-8812',
+      date: new Date(Date.now() - 1000 * 60 * 180).toISOString(), // 3 hours ago
+      name: 'Selin Aydın',
+      phone: '0 (544) 632 10 44',
+      email: 'selin.aydin@gmail.com',
+      city: 'Samsun',
+      district: 'Atakum',
+      budget: '2.5m-4m',
+      locationType: 'sahil',
+      experience: 'var',
+      message: 'Atakum sahil şeridinde mevcut bir kahve dükkanımızı Kutuda Makarna konseptine dönüştürmek istiyoruz.',
+      status: 'Görüşme Planlandı'
+    },
+    {
+      id: 'app_seed_3',
+      code: '#FR-KM-2026-7734',
+      date: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(), // 1 day ago
+      name: 'Caner Özkan',
+      phone: '0 (505) 884 92 11',
+      email: 'caner.ozkan@ankaraozkan.com',
+      city: 'Ankara',
+      district: 'Çankaya',
+      budget: '4m-plus',
+      locationType: 'kampus',
+      experience: 'diger',
+      message: 'ODTÜ ve Bilkent bölgesine yakın cadde üzerinde 2. şube için yatırım planlıyoruz.',
+      status: 'Değerlendirmede'
+    },
+    {
+      id: 'app_seed_4',
+      code: '#FR-KM-2026-6419',
+      date: new Date(Date.now() - 1000 * 60 * 60 * 36).toISOString(), // 1.5 days ago
+      name: 'Ebru Yıldırım',
+      phone: '0 (533) 291 74 55',
+      email: 'ebru.yildirim@yildirimholding.com',
+      city: 'İzmir',
+      district: 'Bornova',
+      budget: '2.5m-4m',
+      locationType: 'avm',
+      experience: 'yok',
+      message: 'Ege Üniversitesi giriş aksında yüksek yaya sirkülasyonu olan bir dükkan için fizibilite talep ediyoruz.',
+      status: 'Onaylandı'
+    },
+    {
+      id: 'app_seed_5',
+      code: '#FR-KM-2026-5120',
+      date: new Date(Date.now() - 1000 * 60 * 60 * 48).toISOString(), // 2 days ago
+      name: 'Kemal Arslan',
+      phone: '0 (542) 778 33 20',
+      email: 'kemal.arslan@bursarest.com',
+      city: 'Bursa',
+      district: 'Nilüfer',
+      budget: '1.5m-2.5m',
+      locationType: 'cadde',
+      experience: 'var',
+      message: 'Görükle yerleşkesi veya Özlüce aksında yatırım düşünüyoruz.',
+      status: 'Yeni'
+    },
+    {
+      id: 'app_seed_6',
+      code: '#FR-KM-2026-4401',
+      date: new Date(Date.now() - 1000 * 60 * 60 * 72).toISOString(), // 3 days ago
+      name: 'Tolga Çetin',
+      phone: '0 (536) 918 40 12',
+      email: 'tolga.cetin@akdenizgroup.com',
+      city: 'Antalya',
+      district: 'Muratpaşa',
+      budget: '4m-plus',
+      locationType: 'avm',
+      experience: 'var',
+      message: 'Lara veya Terracity çevresinde fast-casual makarna konsepti için ana franchise sözleşmesi yapmak istiyoruz.',
+      status: 'Görüşme Planlandı'
+    }
+  ];
+
+  class AdminManager {
+    private applications: Application[] = [];
+    private currentFilterCity = 'all';
+    private currentFilterStatus = 'all';
+    private currentSearch = '';
+    private activeAppForModal: Application | null = null;
+
+    constructor() {
+      this.initAuth();
+      this.bindEvents();
+    }
+
+    private initAuth() {
+      const isAuth = sessionStorage.getItem('km_admin_auth') === 'authenticated';
+      if (isAuth) {
+        this.showDashboard();
+      } else {
+        this.showLogin();
+      }
+    }
+
+    private showLogin() {
+      document.getElementById('login-screen')?.classList.remove('hidden');
+      document.getElementById('dashboard-screen')?.classList.add('hidden');
+    }
+
+    private showDashboard() {
+      document.getElementById('login-screen')?.classList.add('hidden');
+      document.getElementById('dashboard-screen')?.classList.remove('hidden');
+      this.loadApplications();
+      this.updateClock();
+    }
+
+    private loadApplications() {
+      try {
+        const stored = localStorage.getItem('km_franchise_applications');
+        if (stored) {
+          this.applications = JSON.parse(stored);
+        } else {
+          this.applications = [...DEFAULT_APPLICATIONS];
+          localStorage.setItem('km_franchise_applications', JSON.stringify(this.applications));
+        }
+      } catch (err) {
+        console.warn('LocalStorage load failed, using default', err);
+        this.applications = [...DEFAULT_APPLICATIONS];
+      }
+      this.render();
+    }
+
+    private saveApplications() {
+      try {
+        localStorage.setItem('km_franchise_applications', JSON.stringify(this.applications));
+      } catch (err) {
+        console.warn('LocalStorage save failed', err);
+      }
+      this.render();
+    }
+
+    private bindEvents() {
+      // PIN Form submit
+      const pinForm = document.getElementById('pin-form') as HTMLFormElement | null;
+      pinForm?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const pinInput = (document.getElementById('admin-pin') as HTMLInputElement)?.value.trim();
+        const loginError = document.getElementById('login-error');
+
+        // Simple default PIN: km2026
+        if (pinInput.toLowerCase() === 'km2026') {
+          sessionStorage.setItem('km_admin_auth', 'authenticated');
+          loginError?.classList.add('hidden');
+          this.showDashboard();
+        } else {
+          loginError?.classList.remove('hidden');
+        }
+      });
+
+      // Logout button
+      document.getElementById('logout-btn')?.addEventListener('click', () => {
+        sessionStorage.removeItem('km_admin_auth');
+        this.showLogin();
+      });
+
+      // Search input
+      document.getElementById('search-input')?.addEventListener('input', (e) => {
+        this.currentSearch = (e.target as HTMLInputElement).value.toLowerCase().trim();
+        this.renderTable();
+      });
+
+      // City filter
+      document.getElementById('filter-city')?.addEventListener('change', (e) => {
+        this.currentFilterCity = (e.target as HTMLSelectElement).value;
+        this.renderTable();
+      });
+
+      // Status filter
+      document.getElementById('filter-status')?.addEventListener('change', (e) => {
+        this.currentFilterStatus = (e.target as HTMLSelectElement).value;
+        this.renderTable();
+      });
+
+      // Reset mock data
+      document.getElementById('reset-mock-btn')?.addEventListener('click', () => {
+        if (confirm('Demo başvuru verileri varsayılana döndürülsün mü?')) {
+          this.applications = [...DEFAULT_APPLICATIONS];
+          this.saveApplications();
+        }
+      });
+
+      // Export CSV
+      document.getElementById('export-csv-btn')?.addEventListener('click', () => {
+        this.exportToCSV();
+      });
+
+      // Close modal
+      document.getElementById('close-modal-btn')?.addEventListener('click', () => {
+        this.closeModal();
+      });
+
+      // Modal status change
+      document.getElementById('modal-status-select')?.addEventListener('change', (e) => {
+        const newStatus = (e.target as HTMLSelectElement).value as Application['status'];
+        if (this.activeAppForModal) {
+          this.updateAppStatus(this.activeAppForModal.id, newStatus);
+        }
+      });
+    }
+
+    private updateClock() {
+      const el = document.getElementById('live-time-display');
+      if (!el) return;
+      const now = new Date();
+      el.textContent = `${now.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })} • ${now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })}`;
+    }
+
+    private render() {
+      this.renderKPIs();
+      this.renderTable();
+    }
+
+    private renderKPIs() {
+      const totalEl = document.getElementById('metric-total');
+      const newEl = document.getElementById('metric-new');
+      const progressEl = document.getElementById('metric-progress');
+      const capitalEl = document.getElementById('metric-capital');
+
+      const total = this.applications.length;
+      const newCount = this.applications.filter(a => a.status === 'Yeni').length;
+      const progressCount = this.applications.filter(a => a.status === 'Görüşme Planlandı' || a.status === 'Değerlendirmede' || a.status === 'Onaylandı').length;
+
+      // Estimate capital
+      let totalMil = 0;
+      this.applications.forEach(a => {
+        if (a.budget === '4m-plus') totalMil += 4.5;
+        else if (a.budget === '2.5m-4m') totalMil += 3.25;
+        else totalMil += 2.0;
+      });
+
+      if (totalEl) totalEl.textContent = total.toString();
+      if (newEl) newEl.textContent = newCount.toString();
+      if (progressEl) progressEl.textContent = progressCount.toString();
+      if (capitalEl) capitalEl.textContent = `₺${totalMil.toFixed(1)}M`;
+    }
+
+    private renderTable() {
+      const tbody = document.getElementById('applications-table-body');
+      const emptyState = document.getElementById('table-empty-state');
+      if (!tbody) return;
+
+      const filtered = this.applications.filter(app => {
+        // City filter
+        if (this.currentFilterCity !== 'all') {
+          if (this.currentFilterCity === 'Diğer') {
+            const majorCities = ['İstanbul', 'Samsun', 'Ankara', 'İzmir', 'Bursa', 'Antalya'];
+            if (majorCities.includes(app.city)) return false;
+          } else if (!app.city.toLowerCase().includes(this.currentFilterCity.toLowerCase())) {
+            return false;
+          }
+        }
+
+        // Status filter
+        if (this.currentFilterStatus !== 'all' && app.status !== this.currentFilterStatus) {
+          return false;
+        }
+
+        // Search
+        if (this.currentSearch) {
+          const matchName = app.name.toLowerCase().includes(this.currentSearch);
+          const matchPhone = app.phone.toLowerCase().includes(this.currentSearch);
+          const matchCity = app.city.toLowerCase().includes(this.currentSearch);
+          const matchDistrict = (app.district || '').toLowerCase().includes(this.currentSearch);
+          const matchCode = app.code.toLowerCase().includes(this.currentSearch);
+          if (!matchName && !matchPhone && !matchCity && !matchDistrict && !matchCode) {
+            return false;
+          }
+        }
+
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = '';
+        emptyState?.classList.remove('hidden');
+        return;
+      }
+
+      emptyState?.classList.add('hidden');
+
+      tbody.innerHTML = filtered.map(app => {
+        const dateObj = new Date(app.date);
+        const formattedDate = dateObj.toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' });
+        const formattedTime = dateObj.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+
+        const budgetLabel = app.budget === '4m-plus' ? '₺4M+ (Yüksek)' : app.budget === '2.5m-4m' ? '₺2.5M - ₺4M' : '₺1.5M - ₺2.5M';
+        const expLabel = app.experience === 'var' ? '✅ Restoran Deneyimi Var' : app.experience === 'diger' ? '💼 Farklı Sektör İşletmecisi' : '🌱 İlk Girişim';
+
+        const statusClasses: Record<string, string> = {
+          'Yeni': 'bg-amber-500/20 text-amber-300 border border-amber-500/30',
+          'Görüşme Planlandı': 'bg-blue-500/20 text-blue-300 border border-blue-500/30',
+          'Değerlendirmede': 'bg-purple-500/20 text-purple-300 border border-purple-500/30',
+          'Onaylandı': 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30',
+          'Reddedildi': 'bg-rose-500/20 text-rose-300 border border-rose-500/30',
+        };
+
+        return `
+          <tr class="hover:bg-white/[0.02] transition-colors">
+            
+            <!-- Code & Date -->
+            <td class="py-4 px-4 sm:px-6">
+              <span class="font-mono font-bold text-amber-400 block">${app.code}</span>
+              <span class="text-[10px] text-stone-500 font-mono">${formattedDate}, ${formattedTime}</span>
+            </td>
+
+            <!-- Investor Name & Contact -->
+            <td class="py-4 px-4">
+              <span class="font-bold text-white block text-sm">${app.name}</span>
+              <div class="flex items-center gap-2 mt-0.5">
+                <a href="tel:${app.phone}" class="text-stone-400 hover:text-amber-400 font-mono text-[11px] underline">
+                  ${app.phone}
+                </a>
+                <span class="text-stone-600">•</span>
+                <a href="mailto:${app.email}" class="text-stone-400 hover:text-stone-200 text-[11px] underline truncate max-w-[140px]">
+                  ${app.email}
+                </a>
+              </div>
+            </td>
+
+            <!-- Target Location -->
+            <td class="py-4 px-4">
+              <span class="font-semibold text-stone-200 block">${app.city} / ${app.district || 'Merkez'}</span>
+              <span class="text-[10px] text-stone-400 uppercase tracking-wider block">
+                Mekan: ${app.locationType === 'cadde' ? 'İşlek Cadde' : app.locationType === 'avm' ? 'AVM / Food Court' : app.locationType === 'kampus' ? 'Üniversite Kampüsü' : 'Sahil / Marina'}
+              </span>
+            </td>
+
+            <!-- Budget & Experience -->
+            <td class="py-4 px-4">
+              <span class="font-mono text-xs font-bold text-white block">${budgetLabel}</span>
+              <span class="text-[10px] text-stone-400 block">${expLabel}</span>
+            </td>
+
+            <!-- Status Dropdown -->
+            <td class="py-4 px-4">
+              <select
+                data-app-id="${app.id}"
+                class="status-dropdown px-2.5 py-1.5 rounded-lg text-xs font-bold focus:outline-none cursor-pointer ${statusClasses[app.status] || ''}"
+              >
+                <option value="Yeni" ${app.status === 'Yeni' ? 'selected' : ''}>🟡 Yeni</option>
+                <option value="Görüşme Planlandı" ${app.status === 'Görüşme Planlandı' ? 'selected' : ''}>🔵 Görüşme Planlandı</option>
+                <option value="Değerlendirmede" ${app.status === 'Değerlendirmede' ? 'selected' : ''}>🟣 Değerlendirmede</option>
+                <option value="Onaylandı" ${app.status === 'Onaylandı' ? 'selected' : ''}>🟢 Onaylandı</option>
+                <option value="Reddedildi" ${app.status === 'Reddedildi' ? 'selected' : ''}>🔴 Reddedildi</option>
+              </select>
+            </td>
+
+            <!-- Actions -->
+            <td class="py-4 px-4 text-right">
+              <div class="inline-flex items-center gap-1.5">
+                <button
+                  data-detail-id="${app.id}"
+                  class="detail-btn p-2 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white transition-colors cursor-pointer"
+                  title="Başvuru Detayını Görüntüle"
+                >
+                  👁️ Detay
+                </button>
+                <button
+                  data-delete-id="${app.id}"
+                  class="delete-btn p-2 rounded-lg bg-rose-950/30 hover:bg-rose-900/50 text-rose-300 transition-colors cursor-pointer"
+                  title="Başvuruyu Sil"
+                >
+                  🗑️
+                </button>
+              </div>
+            </td>
+
+          </tr>
+        `;
+      }).join('');
+
+      // Attach row event listeners
+      document.querySelectorAll('.status-dropdown').forEach(el => {
+        el.addEventListener('change', (e) => {
+          const select = e.target as HTMLSelectElement;
+          const id = select.getAttribute('data-app-id');
+          const val = select.value as Application['status'];
+          if (id) this.updateAppStatus(id, val);
+        });
+      });
+
+      document.querySelectorAll('.detail-btn').forEach(el => {
+        el.addEventListener('click', (e) => {
+          const btn = (e.currentTarget as HTMLElement);
+          const id = btn.getAttribute('data-detail-id');
+          if (id) this.openDetailModal(id);
+        });
+      });
+
+      document.querySelectorAll('.delete-btn').forEach(el => {
+        el.addEventListener('click', (e) => {
+          const btn = (e.currentTarget as HTMLElement);
+          const id = btn.getAttribute('data-delete-id');
+          if (id && confirm('Bu franchise başvurusunu silmek istediğinize emin misiniz?')) {
+            this.deleteApplication(id);
+          }
+        });
+      });
+    }
+
+    private updateAppStatus(id: string, newStatus: Application['status']) {
+      const app = this.applications.find(a => a.id === id);
+      if (app) {
+        app.status = newStatus;
+        this.saveApplications();
+      }
+    }
+
+    private deleteApplication(id: string) {
+      this.applications = this.applications.filter(a => a.id !== id);
+      this.saveApplications();
+    }
+
+    private openDetailModal(id: string) {
+      const app = this.applications.find(a => a.id === id);
+      if (!app) return;
+      this.activeAppForModal = app;
+
+      const modal = document.getElementById('detail-modal');
+      const codeEl = document.getElementById('modal-app-code');
+      const dateEl = document.getElementById('modal-app-date');
+      const nameEl = document.getElementById('modal-app-name');
+      const phoneEl = document.getElementById('modal-app-phone') as HTMLAnchorElement | null;
+      const emailEl = document.getElementById('modal-app-email') as HTMLAnchorElement | null;
+      const locEl = document.getElementById('modal-app-location');
+      const locTypeEl = document.getElementById('modal-app-location-type');
+      const budgetEl = document.getElementById('modal-app-budget');
+      const expEl = document.getElementById('modal-app-experience');
+      const msgEl = document.getElementById('modal-app-message');
+      const statusSelect = document.getElementById('modal-status-select') as HTMLSelectElement | null;
+      const quickCall = document.getElementById('modal-quick-call') as HTMLAnchorElement | null;
+
+      if (codeEl) codeEl.textContent = app.code;
+      if (dateEl) {
+        const d = new Date(app.date);
+        dateEl.textContent = `${d.toLocaleDateString('tr-TR')} • ${d.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })}`;
+      }
+      if (nameEl) nameEl.textContent = app.name;
+      if (phoneEl) {
+        phoneEl.textContent = app.phone;
+        phoneEl.href = `tel:${app.phone}`;
+      }
+      if (emailEl) {
+        emailEl.textContent = app.email;
+        emailEl.href = `mailto:${app.email}`;
+      }
+      if (locEl) locEl.textContent = `${app.city} / ${app.district || 'Merkez'}`;
+      if (locTypeEl) locTypeEl.textContent = `Mekan Türü: ${app.locationType}`;
+      if (budgetEl) budgetEl.textContent = app.budget;
+      if (expEl) expEl.textContent = app.experience === 'var' ? 'Evet, restoran işletme deneyimi var' : app.experience === 'diger' ? 'Farklı sektör işletmecilik tecrübesi var' : 'İlk defa yeme-içme sektörüne yatırım yapacak';
+      if (msgEl) msgEl.textContent = app.message ? `"${app.message}"` : 'Aday herhangi bir ek mesaj bırakmadı.';
+      if (statusSelect) statusSelect.value = app.status;
+      if (quickCall) quickCall.href = `tel:${app.phone}`;
+
+      modal?.classList.remove('hidden');
+      modal?.classList.add('flex');
+    }
+
+    private closeModal() {
+      const modal = document.getElementById('detail-modal');
+      modal?.classList.add('hidden');
+      modal?.classList.remove('flex');
+      this.activeAppForModal = null;
+    }
+
+    private exportToCSV() {
+      if (this.applications.length === 0) {
+        alert('Dışa aktarılacak başvuru bulunmamaktadır.');
+        return;
+      }
+
+      const headers = ['Takip Kodu', 'Tarih', 'Ad Soyad', 'Telefon', 'E-posta', 'Şehir', 'İlçe', 'Bütçe', 'Lokasyon Türü', 'Deneyim', 'Durum', 'Aday Notu'];
+      
+      const rows = this.applications.map(app => [
+        `"${app.code}"`,
+        `"${new Date(app.date).toLocaleString('tr-TR')}"`,
+        `"${app.name.replace(/"/g, '""')}"`,
+        `"${app.phone}"`,
+        `"${app.email}"`,
+        `"${app.city}"`,
+        `"${app.district || ''}"`,
+        `"${app.budget}"`,
+        `"${app.locationType}"`,
+        `"${app.experience}"`,
+        `"${app.status}"`,
+        `"${(app.message || '').replace(/"/g, '""')}"`
+      ]);
+
+      const csvContent = '\uFEFF' + [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', `Kutuda_Makarna_Franchise_Basvurulari_${new Date().toISOString().slice(0, 10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => new AdminManager());
+  } else {
+    new AdminManager();
+  }
+</script>

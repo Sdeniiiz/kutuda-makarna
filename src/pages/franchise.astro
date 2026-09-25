@@ -386,14 +386,20 @@ const timelineSteps = [
             Kutuda Makarna Franchise departmanımız bilgilerinizi incelemeye aldı. Yatırım temsilcimiz 48 saat içerisinde sizinle telefonla iletişime geçecektir.
           </p>
           <div class="p-4 bg-amber-50 border border-amber-200 rounded-2xl text-xs font-mono font-bold text-[#B45309] max-w-sm mx-auto">
-            Başvuru Takip Kodu: <span class="text-stone-900 ml-1">#FR-KM-2026-X</span>
+            Başvuru Takip Kodu: <span id="fr-tracking-code" class="text-stone-900 ml-1">#FR-KM-2026-0001</span>
           </div>
-          <div class="pt-4">
+          <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
             <a
               href="/"
-              class="inline-block px-8 py-3 rounded-xl bg-[#1C1917] text-white text-xs font-bold uppercase hover:bg-stone-800"
+              class="inline-block px-8 py-3 rounded-xl bg-[#1C1917] text-white text-xs font-bold uppercase hover:bg-stone-800 transition-colors"
             >
               Ana Sayfaya Dön
+            </a>
+            <a
+              href="/admin"
+              class="inline-block px-6 py-3 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-900 text-xs font-bold uppercase transition-colors"
+            >
+              Yönetici Paneli (Demo Girişi) →
             </a>
           </div>
         </div>
@@ -406,11 +412,46 @@ const timelineSteps = [
 
 <script>
   function setupFranchiseForm() {
-    const form = document.getElementById('franchise-application-form');
+    const form = document.getElementById('franchise-application-form') as HTMLFormElement | null;
     const successScreen = document.getElementById('franchise-success-screen');
+    const trackingCodeEl = document.getElementById('fr-tracking-code');
 
     form?.addEventListener('submit', (e) => {
       e.preventDefault();
+
+      const formData = new FormData(form);
+      const randomSuffix = Math.floor(1000 + Math.random() * 9000);
+      const trackingCode = `#FR-KM-2026-${randomSuffix}`;
+
+      const newApp = {
+        id: 'app_' + Date.now(),
+        code: trackingCode,
+        date: new Date().toISOString(),
+        name: formData.get('name') as string,
+        phone: formData.get('phone') as string,
+        email: formData.get('email') as string,
+        city: formData.get('city') as string,
+        district: formData.get('district') as string,
+        budget: formData.get('budget') as string,
+        locationType: formData.get('locationType') as string,
+        experience: formData.get('experience') as string,
+        message: (formData.get('message') as string) || '',
+        status: 'Yeni'
+      };
+
+      try {
+        const stored = localStorage.getItem('km_franchise_applications');
+        const list = stored ? JSON.parse(stored) : [];
+        list.unshift(newApp);
+        localStorage.setItem('km_franchise_applications', JSON.stringify(list));
+      } catch (err) {
+        console.warn('LocalStorage save failed:', err);
+      }
+
+      if (trackingCodeEl) {
+        trackingCodeEl.textContent = trackingCode;
+      }
+
       form.classList.add('hidden');
       successScreen?.classList.remove('hidden');
       window.scrollTo({ top: successScreen?.offsetTop ? successScreen.offsetTop - 100 : 0, behavior: 'smooth' });
