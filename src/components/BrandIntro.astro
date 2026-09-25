@@ -1,0 +1,95 @@
+---
+---
+
+<section id="marka-intro" class="relative py-28 sm:py-36 bg-[#FBF9F5] overflow-hidden border-b border-stone-200/80">
+  <!-- Subtle Ambient Texture -->
+  <div class="absolute inset-0 bg-[radial-gradient(#E7E5E4_1px,transparent_1px)] [background-size:24px_24px] opacity-35 pointer-events-none"></div>
+
+  <!-- Warm Glow in corner -->
+  <div class="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-[#FFB800]/10 rounded-full blur-3xl pointer-events-none"></div>
+
+  <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    
+    <!-- Mini Tag -->
+    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-[#B45309] text-xs font-black uppercase tracking-widest mb-6 opacity-0 translate-y-6 transition-all duration-700 intro-reveal">
+      <span>🍝</span>
+      <span>TUTKUMUZ MAKARNA</span>
+    </div>
+
+    <!-- Big Typography (Master Spec) -->
+    <h2 class="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-[#1C1917] tracking-tight leading-[0.98] uppercase font-sans opacity-0 translate-y-8 transition-all duration-700 delay-150 intro-reveal">
+      MAKARNA SEVİYORUZ.<br />
+      <span class="text-[#D97706] italic">HEM DE ÇOK.</span>
+    </h2>
+
+    <!-- Decorative Accent Line -->
+    <div class="w-24 h-1.5 bg-[#FFB800] rounded-full mx-auto my-8 opacity-0 scale-x-0 transition-all duration-700 delay-300 intro-line"></div>
+
+    <!-- Subtext -->
+    <p class="text-lg sm:text-2xl md:text-3xl text-stone-600 font-normal leading-relaxed max-w-3xl mx-auto text-balance opacity-0 translate-y-8 transition-all duration-700 delay-500 intro-reveal">
+      İyi malzeme, iyi sos ve doğru teknikle hazırlanan makarnaları modern restoran deneyimiyle buluşturuyoruz.
+    </p>
+
+    <!-- 3 Quick Value Highlights -->
+    <div class="mt-14 grid grid-cols-1 sm:grid-cols-3 gap-6 pt-10 border-t border-stone-200/80 text-left opacity-0 translate-y-8 transition-all duration-700 delay-700 intro-reveal">
+      <div class="p-6 rounded-2xl bg-white border border-stone-200 shadow-2xs hover:shadow-md transition-shadow">
+        <span class="text-3xl">🌾</span>
+        <h4 class="font-bold text-[#1C1917] text-base mt-3">Taze Durum Buğdayı</h4>
+        <p class="text-stone-500 text-xs sm:text-sm mt-1 leading-relaxed">
+          Katkısız %100 durum buğdayı irmiğinden her gün taze çekilen bronz kalıp makarna.
+        </p>
+      </div>
+
+      <div class="p-6 rounded-2xl bg-white border border-stone-200 shadow-2xs hover:shadow-md transition-shadow">
+        <span class="text-3xl">🍳</span>
+        <h4 class="font-bold text-[#1C1917] text-base mt-3">Anında Tavada Bağlama</h4>
+        <p class="text-stone-500 text-xs sm:text-sm mt-1 leading-relaxed">
+          Bekletilen hazır sos yok. Siparişiniz verildiği an yüksek ateşte taze taze pişirilir.
+        </p>
+      </div>
+
+      <div class="p-6 rounded-2xl bg-white border border-stone-200 shadow-2xs hover:shadow-md transition-shadow">
+        <span class="text-3xl">📦</span>
+        <h4 class="font-bold text-[#1C1917] text-base mt-3">Termal Kutu Teknolojisi</h4>
+        <p class="text-stone-500 text-xs sm:text-sm mt-1 leading-relaxed">
+          Özel hava kanallı kutu, buharı tahliye ederken sıcaklığı 30 dakika boyunca hapseder.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  function setupIntroObserver() {
+    const section = document.getElementById('marka-intro');
+    if (!section) return;
+
+    const reveals = section.querySelectorAll('.intro-reveal');
+    const line = section.querySelector('.intro-line');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          reveals.forEach(el => {
+            el.classList.remove('opacity-0', 'translate-y-6', 'translate-y-8');
+            el.classList.add('opacity-100', 'translate-y-0');
+          });
+          if (line) {
+            line.classList.remove('opacity-0', 'scale-x-0');
+            line.classList.add('opacity-100', 'scale-x-100');
+          }
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    observer.observe(section);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupIntroObserver);
+  } else {
+    setupIntroObserver();
+  }
+</script>

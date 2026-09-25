@@ -1,0 +1,280 @@
+---
+import { branches } from '../data/branches';
+
+const cities = ['Tümü', 'Samsun', 'İstanbul', 'Ankara', 'İzmir', 'Bursa', 'Antalya'];
+---
+
+<section id="subeler" class="py-20 sm:py-32 bg-[#F4EFEA] border-b border-stone-200/80 w-full overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- Section Header -->
+    <div class="text-center max-w-3xl mx-auto space-y-4 mb-12 sm:mb-14">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-[#B45309] text-xs font-black uppercase tracking-widest">
+        <span>📍</span>
+        <span>RESTORAN & KİOSK LOKASYONLARI</span>
+      </div>
+
+      <h2 class="text-3xl sm:text-5xl md:text-6xl font-black text-[#1C1917] tracking-tight uppercase font-sans break-words">
+        BİZE EN YAKIN ŞUBE NEREDE?
+      </h2>
+
+      <p class="text-sm sm:text-lg text-stone-600">
+        Şehrindeki Kutuda Makarna şubesini seç, ister sıcacık gel-al teslim al ister kapına gelsin.
+      </p>
+
+      <!-- Geolocation Nearest Branch Button -->
+      <div class="pt-2">
+        <button
+          type="button"
+          id="btn-find-nearest"
+          class="inline-flex items-center gap-2 px-5 sm:px-6 py-3 rounded-full bg-[#1C1917] hover:bg-[#D97706] text-white text-xs font-bold uppercase tracking-wider transition-all hover:scale-105 active:scale-95 shadow-md cursor-pointer"
+        >
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+          <span>📍 En Yakın Şubeyi Bul (Konumumu Kullan)</span>
+        </button>
+        <p id="geo-status" class="text-xs text-stone-500 mt-2 hidden"></p>
+      </div>
+    </div>
+
+    <!-- City Filter Tabs (Responsive Wrap) -->
+    <div class="flex items-center justify-center gap-2 sm:gap-3 flex-wrap mb-10" id="branch-city-tabs">
+      {cities.map((city, idx) => (
+        <button
+          type="button"
+          data-city-filter={city === 'Tümü' ? 'all' : city.toLowerCase()}
+          class={`city-tab-btn px-4 sm:px-6 py-2 rounded-full text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+            idx === 0 ? 'bg-[#1C1917] text-white shadow-sm' : 'bg-white text-stone-700 hover:bg-stone-100 border border-stone-200'
+          }`}
+        >
+          {city}
+        </button>
+      ))}
+    </div>
+
+    <!-- Branch Cards Grid (Responsive 1/2/3 cols) -->
+    <div id="branches-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+      {branches.map((branch) => (
+        <div
+          data-city={branch.city.toLowerCase()}
+          data-lat={branch.coordinates.lat}
+          data-lng={branch.coordinates.lng}
+          class="branch-item-card bg-white rounded-3xl overflow-hidden border border-stone-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between w-full"
+        >
+          <!-- Card Header Image & City Tag -->
+          <div class="relative aspect-[16/9] overflow-hidden bg-stone-100">
+            <img
+              src={branch.image || '/images/kutuda-makarna-sube-konsepti.jpg'}
+              alt={branch.name}
+              class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+
+            <!-- City & Concept Badges -->
+            <div class="absolute top-4 left-4 flex items-center gap-2">
+              <span class="px-3 py-1 rounded-full bg-[#FFB800] text-[#1C1917] text-[11px] font-black uppercase tracking-wide shadow-md">
+                {branch.city}
+              </span>
+              <span class="px-2.5 py-1 rounded-full bg-white/90 backdrop-blur-md text-stone-800 text-[10px] font-bold">
+                {branch.info?.conceptType || 'Bistro'}
+              </span>
+            </div>
+
+            <!-- Dynamic Distance Badge (Computed on Geolocation) -->
+            <div class="branch-distance-badge hidden absolute top-4 right-4 px-2.5 py-1 rounded-full bg-emerald-500 text-white text-[11px] font-black shadow-md">
+              0.0 km
+            </div>
+
+            <!-- Branch Name & Hours on Image Bottom -->
+            <div class="absolute bottom-4 left-4 right-4 text-white">
+              <h3 class="text-lg sm:text-xl font-black tracking-tight leading-snug">
+                {branch.name}
+              </h3>
+              <p class="text-xs text-amber-300 font-semibold mt-0.5">
+                {branch.district} • {branch.workingHours.weekdays}
+              </p>
+            </div>
+          </div>
+
+          <!-- Card Body Details -->
+          <div class="p-5 sm:p-6 flex-1 flex flex-col justify-between space-y-4">
+            
+            <div class="space-y-3 text-xs sm:text-sm text-stone-600">
+              <!-- Address -->
+              <div class="flex items-start gap-2">
+                <span class="text-base text-stone-400 mt-0.5 shrink-0">📍</span>
+                <span class="line-clamp-2 leading-relaxed font-normal">{branch.address}</span>
+              </div>
+
+              <!-- Phone -->
+              <div class="flex items-center gap-2">
+                <span class="text-base text-stone-400 shrink-0">📞</span>
+                <a href={`tel:${branch.phone}`} class="font-bold text-[#1C1917] hover:text-[#D97706] transition-colors font-mono">
+                  {branch.phoneDisplay}
+                </a>
+              </div>
+
+              <!-- Hours & Note -->
+              <div class="flex items-start gap-2">
+                <span class="text-base text-stone-400 mt-0.5 shrink-0">🕒</span>
+                <div>
+                  <span class="font-semibold text-stone-800">Hafta Sonu: {branch.workingHours.weekend}</span>
+                  {branch.workingHours.note && (
+                    <p class="text-[11px] text-stone-500 mt-0.5">{branch.workingHours.note}</p>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Buttons Grid (Yol Tarifi, Şube Sayfası, Sipariş Ver - NO RESERVATION) -->
+            <div class="pt-4 border-t border-stone-100 space-y-2">
+              <div class="grid grid-cols-2 gap-2">
+                <a
+                  href={branch.googleMapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="py-2.5 px-3 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-800 text-xs font-bold text-center transition-colors flex items-center justify-center gap-1"
+                >
+                  <span>🗺️ Yol Tarifi</span>
+                </a>
+
+                <a
+                  href={`/subeler/${branch.slug}`}
+                  class="py-2.5 px-3 rounded-xl bg-amber-50 hover:bg-amber-100 text-[#B45309] text-xs font-bold text-center transition-colors flex items-center justify-center gap-1"
+                >
+                  <span>Şube Sayfası →</span>
+                </a>
+              </div>
+
+              <div>
+                <button
+                  type="button"
+                  data-open-online-order-modal
+                  class="w-full py-2.5 px-3 rounded-xl bg-[#1C1917] hover:bg-[#D97706] text-white text-xs font-black uppercase text-center transition-all cursor-pointer shadow-xs"
+                >
+                  🛵 Online Sipariş Ver / Gel-Al
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<script>
+  function setupBranchFinder() {
+    const tabs = document.querySelectorAll<HTMLButtonElement>('.city-tab-btn');
+    const cards = document.querySelectorAll<HTMLElement>('.branch-item-card');
+    const geoBtn = document.getElementById('btn-find-nearest');
+    const geoStatus = document.getElementById('geo-status');
+    const grid = document.getElementById('branches-grid');
+
+    // City Filter Logic
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const filter = tab.getAttribute('data-city-filter');
+
+        tabs.forEach((t) => {
+          t.classList.remove('bg-[#1C1917]', 'text-white');
+          t.classList.add('bg-white', 'text-stone-700');
+        });
+        tab.classList.remove('bg-white', 'text-stone-700');
+        tab.classList.add('bg-[#1C1917]', 'text-white');
+
+        cards.forEach((card) => {
+          const cardCity = card.getAttribute('data-city');
+          if (filter === 'all' || cardCity === filter) {
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+      });
+    });
+
+    // Haversine Distance Formula in Kilometers
+    function getDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
+      const R = 6371;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      return R * c;
+    }
+
+    // Geolocation Sorting
+    geoBtn?.addEventListener('click', () => {
+      if (!navigator.geolocation) {
+        if (geoStatus) {
+          geoStatus.classList.remove('hidden');
+          geoStatus.textContent = 'Tarayıcınız konum servisini desteklemiyor.';
+        }
+        return;
+      }
+
+      if (geoStatus) {
+        geoStatus.classList.remove('hidden');
+        geoStatus.textContent = 'Konumunuz alınıyor...';
+      }
+
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const userLat = pos.coords.latitude;
+          const userLng = pos.coords.longitude;
+
+          const cardArray = Array.from(cards);
+
+          cardArray.forEach((card) => {
+            const lat = parseFloat(card.getAttribute('data-lat') || '0');
+            const lng = parseFloat(card.getAttribute('data-lng') || '0');
+            const dist = getDistance(userLat, userLng, lat, lng);
+            card.setAttribute('data-distance', dist.toFixed(1));
+
+            const badge = card.querySelector('.branch-distance-badge');
+            if (badge) {
+              badge.textContent = `${dist < 1 ? Math.round(dist * 1000) + ' m' : dist.toFixed(1) + ' km'} mesafede`;
+              badge.classList.remove('hidden');
+            }
+          });
+
+          cardArray.sort((a, b) => {
+            const dA = parseFloat(a.getAttribute('data-distance') || '99999');
+            const dB = parseFloat(b.getAttribute('data-distance') || '99999');
+            return dA - dB;
+          });
+
+          if (grid) {
+            cardArray.forEach(c => {
+              c.classList.remove('hidden');
+              grid.appendChild(c);
+            });
+          }
+
+          if (geoStatus) {
+            geoStatus.textContent = 'En yakın şubeler yukarıda sıralandı!';
+            geoStatus.classList.add('text-emerald-700', 'font-bold');
+          }
+        },
+        () => {
+          if (geoStatus) {
+            geoStatus.textContent = 'Konum izni alınamadı. Lütfen tarayıcı izinlerinizi kontrol edin.';
+            geoStatus.classList.add('text-rose-600');
+          }
+        }
+      );
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupBranchFinder);
+  } else {
+    setupBranchFinder();
+  }
+</script>

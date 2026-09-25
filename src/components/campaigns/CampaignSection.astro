@@ -1,0 +1,30 @@
+---
+import type { Campaign } from '../../types/campaign';
+import CampaignCard from './CampaignCard.astro';
+
+interface Props {
+  campaigns: Campaign[];
+  branchName?: string;
+}
+
+const { campaigns, branchName } = Astro.props;
+if (!campaigns || campaigns.length === 0) return null;
+---
+
+<section class="space-y-4" aria-label="Şube Kampanyaları">
+  <div class="flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <span class="text-xl">🎁</span>
+      <h2 class="text-lg font-black text-[#1C1917] tracking-tight">
+        {branchName ? `${branchName} Kampanyaları` : 'Aktif Kampanyalar'}
+      </h2>
+    </div>
+    <span class="text-xs font-bold text-[#D97706] font-mono">{campaigns.length} Fırsat</span>
+  </div>
+
+  <div class="grid grid-cols-1 gap-4">
+    {campaigns.map((camp) => (
+      <CampaignCard campaign={camp} />
+    ))}
+  </div>
+</section>

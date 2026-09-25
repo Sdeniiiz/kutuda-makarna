@@ -1,0 +1,198 @@
+---
+import { branches } from '../data/branches';
+---
+
+<div
+  id="online-order-modal"
+  class="fixed inset-0 z-50 hidden items-center justify-center bg-black/75 backdrop-blur-md p-4 transition-all duration-300"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="online-order-modal-title"
+>
+  <div class="relative w-full max-w-lg bg-[#FAF8F5] rounded-3xl border border-stone-200 shadow-2xl overflow-hidden p-6 sm:p-8 transform transition-all duration-300 scale-95 opacity-0 order-modal-container">
+    
+    <!-- Close Button -->
+    <button
+      type="button"
+      id="close-order-modal"
+      class="absolute top-5 right-5 w-10 h-10 rounded-full bg-stone-200/80 hover:bg-stone-300 text-stone-700 flex items-center justify-center font-bold text-lg transition-colors cursor-pointer"
+      aria-label="Kapat"
+    >
+      ✕
+    </button>
+
+    <!-- Header -->
+    <div class="text-center space-y-2 mb-6">
+      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-[#B45309] text-xs font-black uppercase tracking-wider">
+        <span>🛵</span>
+        <span>ONLINE SİPARİŞ & GEL-AL</span>
+      </span>
+      <h3 id="online-order-modal-title" class="text-2xl sm:text-3xl font-black text-[#1C1917] tracking-tight font-sans">
+        Makarnayı Eve mi Alalım?
+      </h3>
+      <p class="text-xs sm:text-sm text-stone-500">
+        Canın makarna çektiyse bekleme. Dilediğin platformdan sıcak kapına gelsin veya şubeden hazır teslim al.
+      </p>
+    </div>
+
+    <!-- Select Branch First -->
+    <div class="space-y-4">
+      <div>
+        <label for="order-branch-select" class="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1.5">
+          Sipariş Vereceğiniz Şube
+        </label>
+        <select
+          id="order-branch-select"
+          class="w-full px-4 py-3 rounded-xl bg-white border border-stone-200 text-[#1C1917] text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#D97706] focus:border-transparent transition-all"
+        >
+          {branches.map(b => (
+            <option value={b.slug}>
+              {b.city} - {b.name}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <!-- Action Choice Tabs -->
+      <div class="grid grid-cols-2 gap-3 pt-2">
+        <!-- Delivery (Kurye / Eve Sipariş) -->
+        <div class="p-4 rounded-2xl bg-white border border-stone-200 hover:border-amber-400 transition-all space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-2xl">🛵</span>
+            <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-black">25-35 Dk</span>
+          </div>
+          <div>
+            <h4 class="font-bold text-[#1C1917] text-sm">Eve Teslimat</h4>
+            <p class="text-stone-500 text-xs mt-0.5">Sıcak termal kutu kurye servisi</p>
+          </div>
+          
+          <div class="space-y-1.5 pt-1">
+            <a
+              href="https://www.yemeksepeti.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="w-full block text-center py-2 rounded-lg bg-[#EA004B] hover:bg-[#c7003f] text-white text-xs font-black transition-transform hover:scale-102"
+            >
+              Yemeksepeti'nden Söyle
+            </a>
+            <a
+              href="https://getir.com/yemek"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="w-full block text-center py-2 rounded-lg bg-[#5D3EBC] hover:bg-[#4d32a0] text-white text-xs font-black transition-transform hover:scale-102"
+            >
+              GetirYemek'ten Söyle
+            </a>
+            <a
+              href="https://www.trendyol.com/yemek"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="w-full block text-center py-2 rounded-lg bg-[#F27A1A] hover:bg-[#d6650d] text-white text-xs font-black transition-transform hover:scale-102"
+            >
+              Trendyol Yemek
+            </a>
+          </div>
+        </div>
+
+        <!-- Takeaway (Gel-Al / Sıra Bekleme) -->
+        <div class="p-4 rounded-2xl bg-white border border-stone-200 hover:border-amber-400 transition-all space-y-3 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between">
+              <span class="text-2xl">⚡</span>
+              <span class="px-2 py-0.5 rounded-full bg-amber-100 text-[#B45309] text-[10px] font-black">3-5 Dk Hazır</span>
+            </div>
+            <h4 class="font-bold text-[#1C1917] text-sm mt-3">Şubeden Gel-Al</h4>
+            <p class="text-stone-500 text-xs mt-0.5">Sıra beklemeden doğrudan tezgahtan sıcak teslim al.</p>
+          </div>
+
+          <div class="space-y-2 pt-2">
+            <a
+              id="btn-call-branch-order"
+              href="tel:+903625000101"
+              class="w-full block text-center py-2.5 rounded-lg bg-[#1C1917] hover:bg-[#D97706] text-white text-xs font-black uppercase transition-all hover:scale-102"
+            >
+              📞 Şubeyi Ara & Hazırlansın
+            </a>
+            <a
+              href="/menu"
+              class="w-full block text-center py-2 rounded-lg bg-stone-100 hover:bg-stone-200 text-stone-800 text-xs font-bold transition-colors"
+            >
+              Menüden Seç
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function setupOnlineOrderModal() {
+    const modal = document.getElementById('online-order-modal');
+    const container = modal?.querySelector('.order-modal-container');
+    const closeBtn = document.getElementById('close-order-modal');
+    const triggers = document.querySelectorAll('[data-open-online-order-modal]');
+    const branchSelect = document.getElementById('order-branch-select') as HTMLSelectElement | null;
+    const callBtn = document.getElementById('btn-call-branch-order') as HTMLAnchorElement | null;
+
+    const branchPhones: Record<string, string> = {
+      'atakum': 'tel:+903625000101',
+      'ilkadim': 'tel:+903625000102',
+      'tekkekoy': 'tel:+903625000103',
+      'kadikoy-moda': 'tel:+902165000201',
+      'ankara-tunali': 'tel:+903125000301',
+      'izmir-alsancak': 'tel:+902325000401',
+      'bursa-nilufer': 'tel:+902245000501',
+      'antalya-lara': 'tel:+902425000601',
+    };
+
+    branchSelect?.addEventListener('change', () => {
+      const selected = branchSelect.value;
+      if (callBtn && branchPhones[selected]) {
+        callBtn.href = branchPhones[selected];
+      }
+    });
+
+    function openModal() {
+      if (!modal || !container) return;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      setTimeout(() => {
+        container.classList.remove('scale-95', 'opacity-0');
+        container.classList.add('scale-100', 'opacity-100');
+      }, 10);
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      if (!modal || !container) return;
+      container.classList.remove('scale-100', 'opacity-100');
+      container.classList.add('scale-95', 'opacity-0');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.style.overflow = '';
+      }, 200);
+    }
+
+    triggers.forEach(trig => {
+      trig.addEventListener('click', (e) => {
+        e.preventDefault();
+        openModal();
+      });
+    });
+
+    closeBtn?.addEventListener('click', closeModal);
+    modal?.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupOnlineOrderModal);
+  } else {
+    setupOnlineOrderModal();
+  }
+</script>

@@ -78,17 +78,17 @@ const breadcrumbSchema = {
   activePath="/menu"
   schemaJson={[productSchema, breadcrumbSchema]}
 >
-  <div class="py-10 lg:py-16 bg-[#0E0E10]">
+  <div class="py-10 lg:py-16 bg-[#FBF9F5]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <!-- Breadcrumb Navigation -->
-      <nav aria-label="Breadcrumb" class="mb-8 text-xs font-semibold text-zinc-400">
+      <nav aria-label="Breadcrumb" class="mb-8 text-xs font-semibold text-stone-500">
         <ol class="flex items-center gap-2 flex-wrap">
-          <li><a href="/" class="hover:text-[#FFB800] transition-colors">Ana Sayfa</a></li>
-          <li><span>/</span></li>
-          <li><a href="/menu" class="hover:text-[#FFB800] transition-colors">Menü</a></li>
-          <li><span>/</span></li>
-          <li class="text-[#FFB800] truncate max-w-xs">{item.name}</li>
+          <li><a href="/" class="hover:text-[#D97706] transition-colors">Ana Sayfa</a></li>
+          <li><span class="text-stone-300">/</span></li>
+          <li><a href="/menu" class="hover:text-[#D97706] transition-colors">Menü</a></li>
+          <li><span class="text-stone-300">/</span></li>
+          <li class="text-[#D97706] font-bold truncate max-w-xs">{item.name}</li>
         </ol>
       </nav>
 
@@ -97,45 +97,45 @@ const breadcrumbSchema = {
         
         <!-- Left: Product Presentation Box -->
         <div class="lg:col-span-6 space-y-6">
-          <div class="relative w-full aspect-square rounded-3xl bg-gradient-to-b from-[#181820] to-[#101014] border-2 border-[rgba(255,184,0,0.3)] shadow-2xl p-8 flex flex-col items-center justify-center overflow-hidden">
-            <!-- Backlight Glow -->
-            <div class="absolute inset-0 bg-radial from-[#FFB800]/15 via-transparent to-transparent"></div>
+          <div class="relative w-full aspect-square rounded-3xl overflow-hidden border-2 border-stone-200/90 shadow-xl bg-stone-100 group">
+            <img
+              src={item.image}
+              alt={item.name}
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+              loading="eager"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
 
             <!-- Rising Steam Lines -->
-            <div class="absolute top-10 flex gap-6 pointer-events-none">
-              <svg class="w-8 h-16 text-zinc-400 animate-steam-1" viewBox="0 0 24 60" fill="none" stroke="currentColor" stroke-width="2">
+            <div class="absolute top-6 left-6 flex gap-4 pointer-events-none opacity-80">
+              <svg class="w-6 h-12 text-white/80 animate-steam-1" viewBox="0 0 24 60" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M12 55 C 6 45, 18 35, 12 25 C 6 15, 18 5, 12 0" />
               </svg>
-              <svg class="w-8 h-16 text-zinc-300 animate-steam-2" viewBox="0 0 24 60" fill="none" stroke="currentColor" stroke-width="2">
+              <svg class="w-6 h-12 text-white/90 animate-steam-2" viewBox="0 0 24 60" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M12 55 C 18 45, 6 35, 12 25 C 18 15, 6 5, 12 0" />
               </svg>
             </div>
 
-            <!-- Stylized Dish / Box -->
-            <div class="relative z-10 w-64 h-64 flex flex-col items-center justify-center text-center">
-              <div class="w-36 h-36 rounded-3xl bg-[#FFB800] text-[#0E0E10] font-black text-6xl flex items-center justify-center shadow-2xl shadow-[#FFB800]/30 transform -rotate-2 hover:rotate-0 transition-transform">
-                {item.category === 'kremali' ? '🍝' : item.category === 'domatesli' ? '🍅' : item.category === 'yan-urun' ? '🍰' : '🌿'}
-              </div>
-              <span class="mt-4 text-xs font-black uppercase tracking-widest text-[#FFB800] bg-zinc-900 px-3 py-1 rounded-full border border-zinc-700">
+            <!-- Bottom Thermal Box Badge -->
+            <div class="absolute bottom-4 left-6 right-6 bg-white/95 backdrop-blur-md border border-stone-200 rounded-2xl px-4 py-3 flex items-center justify-between text-xs shadow-md">
+              <span class="text-stone-700 font-bold flex items-center gap-1.5">
+                <span>🌡️ Termo-Kutu:</span>
+                <span class="text-[#D97706] font-black">30 Dk İlk Anki Sıcaklık</span>
+              </span>
+              <span class="text-[10px] font-black uppercase bg-[#1C1917] text-white px-2.5 py-1 rounded-lg">
                 {item.pastaType}
               </span>
-            </div>
-
-            <!-- Bottom Thermal Box Badge -->
-            <div class="absolute bottom-4 left-6 right-6 bg-zinc-900/90 backdrop-blur-md border border-zinc-800 rounded-xl px-4 py-3 flex items-center justify-between text-xs">
-              <span class="text-zinc-300 font-medium">🌡️ Sıcaklık Koruması:</span>
-              <span class="text-[#FFB800] font-bold">30 Dk Sıcacık</span>
             </div>
           </div>
 
           <!-- Pairing Recommendation Callout -->
-          <div class="bg-[#14141A] border border-zinc-800 rounded-2xl p-5 flex items-center gap-4">
-            <div class="w-12 h-12 rounded-xl bg-[#FFB800]/10 border border-[#FFB800]/30 flex items-center justify-center text-xl shrink-0">
+          <div class="bg-white border border-stone-200/90 rounded-2xl p-5 flex items-center gap-4 shadow-xs">
+            <div class="w-12 h-12 rounded-xl bg-amber-100/70 border border-amber-200/70 flex items-center justify-center text-xl shrink-0">
               💡
             </div>
             <div>
-              <div class="text-xs font-bold text-[#FFB800] uppercase tracking-wider">Şefin Eşleşme Önerisi</div>
-              <p class="text-xs text-zinc-300 mt-0.5">{item.pairingRecommendation}</p>
+              <div class="text-xs font-bold text-[#B45309] uppercase tracking-wider">Şefin Eşleşme Önerisi</div>
+              <p class="text-xs text-stone-600 mt-0.5">{item.pairingRecommendation}</p>
             </div>
           </div>
         </div>
@@ -147,70 +147,70 @@ const breadcrumbSchema = {
           <div>
             <div class="flex items-center gap-2 mb-3">
               {item.badge && (
-                <span class="px-3 py-1 rounded-full text-xs font-bold bg-[#FFB800]/15 text-[#FFB800] border border-[#FFB800]/30 uppercase tracking-wide">
+                <span class="px-3 py-1 rounded-full text-xs font-black bg-amber-100/80 text-[#B45309] border border-amber-200 uppercase tracking-wide">
                   {item.badge}
                 </span>
               )}
               {item.isVegetarian && (
-                <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-950 text-emerald-400 border border-emerald-800">
+                <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
                   Vejetaryen 🌱
                 </span>
               )}
               {item.spicyLevel > 0 && (
-                <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-red-950 text-red-400 border border-red-800">
+                <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-rose-100 text-rose-800 border border-rose-200">
                   {'🌶️'.repeat(item.spicyLevel)} Acılı
                 </span>
               )}
             </div>
 
-            <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight font-sans">
+            <h1 class="text-3xl sm:text-5xl font-black text-[#1C1917] tracking-tight font-sans">
               {item.name}
             </h1>
-            <p class="text-zinc-400 text-sm sm:text-base mt-3 leading-relaxed">
+            <p class="text-stone-600 text-sm sm:text-base mt-3 leading-relaxed">
               {item.shortDescription}
             </p>
           </div>
 
           <!-- Price & Metrics Bar -->
-          <div class="bg-[#16161C] border border-zinc-800 rounded-2xl p-5 grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div class="bg-white border border-stone-200/90 rounded-2xl p-5 grid grid-cols-2 sm:grid-cols-4 gap-4 shadow-xs">
             <div>
-              <span class="text-xs text-zinc-500 block">Fiyat</span>
-              <span class="text-2xl font-black text-white">{item.price} <span class="text-sm text-[#FFB800]">₺</span></span>
+              <span class="text-xs text-stone-500 block font-medium">Fiyat</span>
+              <span class="text-2xl font-black text-[#1C1917]">{item.price} <span class="text-sm text-[#D97706] font-bold">₺</span></span>
             </div>
             <div>
-              <span class="text-xs text-zinc-500 block">Porsiyon</span>
-              <span class="text-base font-bold text-zinc-200">{item.portionGrams} gram</span>
+              <span class="text-xs text-stone-500 block font-medium">Porsiyon</span>
+              <span class="text-base font-bold text-stone-800">{item.portionGrams} gram</span>
             </div>
             <div>
-              <span class="text-xs text-zinc-500 block">Enerji</span>
-              <span class="text-base font-bold text-zinc-200">{item.calories} kcal</span>
+              <span class="text-xs text-stone-500 block font-medium">Enerji</span>
+              <span class="text-base font-bold text-stone-800">{item.calories} kcal</span>
             </div>
             <div>
-              <span class="text-xs text-zinc-500 block">Hazırlık</span>
-              <span class="text-base font-bold text-emerald-400">⏱️ {item.prepTimeMinutes} dk</span>
+              <span class="text-xs text-stone-500 block font-medium">Hazırlık</span>
+              <span class="text-base font-bold text-emerald-700">⏱️ {item.prepTimeMinutes} dk</span>
             </div>
           </div>
 
           <!-- Culinary Story -->
           <div class="space-y-3">
-            <h2 class="text-lg font-bold text-white uppercase tracking-wider border-l-2 border-[#FFB800] pl-2">
+            <h2 class="text-lg font-black text-[#1C1917] uppercase tracking-wider border-l-3 border-[#D97706] pl-2.5">
               Lezzet Hikayesi & Sos Karakteri
             </h2>
-            <p class="text-sm text-zinc-300 leading-relaxed">
+            <p class="text-sm text-stone-700 leading-relaxed">
               {item.description}
             </p>
-            <p class="text-xs text-zinc-400 italic">
+            <p class="text-xs text-stone-500 italic">
               <strong>Sos Detayı:</strong> {item.sauceDetails}
             </p>
           </div>
 
           <!-- Ingredients List -->
           <div class="space-y-3">
-            <h3 class="text-sm font-bold text-white uppercase tracking-wider">İçindekiler</h3>
-            <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-zinc-300">
+            <h3 class="text-sm font-bold text-stone-800 uppercase tracking-wider">İçindekiler</h3>
+            <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-stone-700">
               {item.ingredients.map((ing) => (
-                <li class="flex items-center gap-2 bg-zinc-900/60 p-2 rounded-lg border border-zinc-800/80">
-                  <span class="text-[#FFB800]">✓</span>
+                <li class="flex items-center gap-2 bg-white p-2.5 rounded-xl border border-stone-200/80 shadow-xs">
+                  <span class="text-[#D97706] font-bold">✓</span>
                   <span>{ing}</span>
                 </li>
               ))}
@@ -219,25 +219,25 @@ const breadcrumbSchema = {
 
           <!-- Allergens -->
           {item.allergens.length > 0 && (
-            <div class="bg-amber-950/20 border border-amber-800/40 rounded-xl p-4 space-y-1">
-              <span class="text-xs font-bold text-amber-400 uppercase tracking-wide">⚠️ Alerjen Uyarısı</span>
-              <p class="text-xs text-zinc-300">
+            <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 space-y-1">
+              <span class="text-xs font-bold text-[#B45309] uppercase tracking-wide">⚠️ Alerjen Uyarısı</span>
+              <p class="text-xs text-stone-600">
                 Bu ürün şu alerjenleri içerir: <strong>{item.allergens.join(', ')}</strong>. Çapraz bulaşma riski için lütfen şube personelimize danışınız.
               </p>
             </div>
           )}
 
           <!-- Branch Availability (Local SEO Links) -->
-          <div class="bg-[#141418] border border-zinc-800 rounded-xl p-5 space-y-3">
+          <div class="bg-white border border-stone-200/90 rounded-2xl p-5 space-y-3 shadow-xs">
             <div class="flex items-center justify-between">
-              <h3 class="text-xs font-bold text-white uppercase tracking-wider">Şubelerde Bulunabilirlik</h3>
-              <span class="text-xs text-emerald-400 font-semibold">● Tüm Şubelerde Mevcut</span>
+              <h3 class="text-xs font-bold text-stone-800 uppercase tracking-wider">Şubelerde Bulunabilirlik</h3>
+              <span class="text-xs text-emerald-700 font-bold">● Tüm Şubelerde Mevcut</span>
             </div>
             <div class="flex flex-wrap gap-2">
               {branches.map((b) => (
                 <a
                   href={`/subeler/${b.slug}`}
-                  class="px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-xs text-zinc-300 hover:text-white transition-colors"
+                  class="px-3 py-1.5 rounded-xl bg-stone-50 hover:bg-amber-50 border border-stone-200 text-xs font-bold text-stone-700 hover:text-[#B45309] transition-colors"
                 >
                   📍 {b.name}
                 </a>
@@ -249,13 +249,13 @@ const breadcrumbSchema = {
           <div class="flex flex-col sm:flex-row gap-4 pt-2">
             <a
               href="/subeler"
-              class="flex-1 text-center py-4 rounded-xl bg-[#FFB800] text-[#0E0E10] font-black text-sm hover:bg-[#F59E0B] shadow-lg shadow-[#FFB800]/20 transition-transform hover:scale-105"
+              class="flex-1 text-center py-4 rounded-2xl bg-[#FFB800] text-[#1C1917] font-black text-sm hover:bg-[#F59E0B] shadow-lg shadow-amber-500/20 transition-transform hover:scale-102"
             >
               EN YAKIN ŞUBEDEN AL →
             </a>
             <a
               href="/menu"
-              class="px-6 py-4 rounded-xl border border-zinc-700 text-zinc-300 hover:text-white text-sm font-bold text-center transition-colors hover:bg-zinc-800"
+              class="px-6 py-4 rounded-2xl border border-stone-300 text-stone-800 hover:text-stone-900 text-sm font-bold text-center transition-colors hover:bg-stone-100"
             >
               Tüm Menüye Dön
             </a>
@@ -267,12 +267,12 @@ const breadcrumbSchema = {
 
       <!-- Related Products -->
       {relatedItems.length > 0 && (
-        <section class="mt-24 pt-16 border-t border-zinc-900">
+        <section class="mt-24 pt-16 border-t border-stone-200">
           <div class="flex items-center justify-between mb-8">
-            <h2 class="text-2xl font-black text-white font-sans">
-              BUNU SEVENLER <span class="text-[#FFB800]">BUNLARI DA DENEDİ</span>
+            <h2 class="text-2xl font-black text-[#1C1917] font-sans">
+              BUNU SEVENLER <span class="text-[#D97706]">BUNLARI DA DENEDİ</span>
             </h2>
-            <a href="/menu" class="text-xs font-bold text-[#FFB800] hover:underline">
+            <a href="/menu" class="text-xs font-bold text-[#D97706] hover:underline">
               Tümünü Gör →
             </a>
           </div>

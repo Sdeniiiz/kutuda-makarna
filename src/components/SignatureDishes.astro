@@ -1,0 +1,143 @@
+---
+const signatureItems = [
+  {
+    id: 'sig-01',
+    name: 'Kremalı Mantarlı Penne',
+    tagline: 'İpeksi Krema & Taze İstiridye Mantarı',
+    description: 'Yüksek ateşte tereyağı ve sızma zeytinyağı ile sotelenen taze istiridye ve kültür mantarları, yoğun İtalyan kremasıyla bağlanır. Kutunun termal yapısı, her bir penne kıvrımına sinen zengin sosu son çatala kadar sıcak tutar.',
+    quote: 'Her çatalda damağı saran o sıcak kadife his.',
+    image: '/images/pasta/kremali-mantarli.jpg',
+    slug: 'kremali-mantarli-makarna',
+    specs: '380g • 620 kcal • 4 Dk Hazır',
+    badge: 'En Çok Tercih Edilen',
+    reverse: false
+  },
+  {
+    id: 'sig-02',
+    name: 'Geleneksel Ağır Ateş Bolonez',
+    tagline: '4 Saat Ağır Ateşte Demlenen Dana Ragù',
+    description: 'Bologna usulü hazırlanan %100 yerli dana kıyması; kök sebzeler ve aromatik San Marzano domates sosuyla kısık ateşte saatlerce demlenir. Fusilli bucati makarnanın spiral oluklarına tutunan zengin et parçalarıyla doyurucu bir şölen.',
+    quote: 'Büyükannelerin Pazar sofralarındaki o derin et sosu kokusu.',
+    image: '/images/pasta/bolonez.jpg',
+    slug: 'bolonez-makarna',
+    specs: '420g • 680 kcal • Usta İmzası',
+    badge: 'Klasik Başyapıt',
+    reverse: true
+  },
+  {
+    id: 'sig-03',
+    name: 'Trüflü Gurme Mantar Tagliatelle',
+    tagline: 'Siyah Trüf Yağı & Parmigiano Reggiano',
+    description: 'Sıradan makarnanın çok ötesinde lüks bir sokak lezzeti. Doğal siyah trüf aromasıyla zenginleştirilmiş velouté sosu, özenle seçilen mantar çeşitleriyle birleşir. Kutuyu açtığınız anda etrafı saran o eşsiz trüf aroması unutulmaz.',
+    quote: 'Kutuyu açtığın an odayı dolduran o asil aroma.',
+    image: '/images/pasta/truflu-mantar.jpg',
+    slug: 'truflu-mantar-spesiyal',
+    specs: '390g • 650 kcal • Şef Spesiyali',
+    badge: 'Şefin İmzası ✨',
+    reverse: false
+  }
+];
+---
+
+<section id="imza-lezzetler" class="py-24 sm:py-32 bg-[#0E1217] text-white overflow-hidden border-b border-stone-800">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- Section Header -->
+    <div class="text-center max-w-3xl mx-auto space-y-4 mb-20">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFB800]/15 border border-[#FFB800]/30 text-amber-400 text-xs font-black uppercase tracking-widest">
+        <span>⭐</span>
+        <span>ÖZEL SEÇKİ</span>
+      </div>
+
+      <h2 class="text-3xl sm:text-5xl md:text-6xl font-black text-white tracking-tight uppercase font-sans">
+        İMZA LEZZETLER
+      </h2>
+
+      <p class="text-base sm:text-lg text-stone-400">
+        Şeflerimizin her gün taze hamur ve özel sos tarifleriyle hazırladığı, şubelerimizde en çok konuşulan ikonik tabaklar.
+      </p>
+    </div>
+
+    <!-- Editorial Zig-Zag Layout -->
+    <div class="space-y-24 sm:space-y-32">
+      {signatureItems.map((item, idx) => (
+        <div class={`grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center ${item.reverse ? 'lg:flex-row-reverse' : ''}`}>
+          
+          <!-- Image Column (Editorial Giant Photo) -->
+          <div class={`lg:col-span-7 relative ${item.reverse ? 'lg:order-2' : 'lg:order-1'}`}>
+            <div class="relative aspect-[16/11] rounded-3xl overflow-hidden shadow-2xl border border-white/10 group bg-stone-900">
+              <img
+                src={item.image}
+                alt={item.name}
+                class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                loading="lazy"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+
+              <!-- Badge -->
+              <span class="absolute top-5 left-5 px-3.5 py-1.5 rounded-full bg-[#FFB800] text-[#1C1917] text-xs font-black tracking-wide shadow-md">
+                {item.badge}
+              </span>
+
+              <!-- Live Quote Overlay (Instagram/Editorial Vibe) -->
+              <div class="absolute bottom-5 left-5 right-5 p-4 rounded-2xl bg-black/60 backdrop-blur-md border border-white/15 text-stone-200 text-xs sm:text-sm font-medium italic">
+                "{item.quote}"
+              </div>
+            </div>
+          </div>
+
+          <!-- Content Column -->
+          <div class={`lg:col-span-5 space-y-6 ${item.reverse ? 'lg:order-1' : 'lg:order-2'}`}>
+            <div class="space-y-2">
+              <div class="flex items-center gap-3">
+                <span class="text-amber-400 font-mono text-sm font-black tracking-wider">0{idx + 1} / İMZA SERİSİ</span>
+                <span class="text-stone-600">•</span>
+                <span class="text-xs text-stone-400 font-bold">{item.specs}</span>
+              </div>
+              <h3 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight uppercase font-sans">
+                {item.name}
+              </h3>
+              <p class="text-sm sm:text-base font-semibold text-amber-400">
+                {item.tagline}
+              </p>
+            </div>
+
+            <p class="text-stone-300 text-sm sm:text-base leading-relaxed font-light">
+              {item.description}
+            </p>
+
+            <!-- Instagram / Social Prompt -->
+            <div class="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-1">
+              <span class="text-xs font-bold text-amber-300">Bu lezzeti denedin mi?</span>
+              <p class="text-xs text-stone-400">
+                Şubelerimizde masada veya sahil yürüyüşünde kutunun kapağını açtığın an fotoğrafını çek, @kutudamakarna etiketiyle paylaş!
+              </p>
+            </div>
+
+            <!-- Action CTAs -->
+            <div class="pt-2 flex flex-wrap items-center gap-4">
+              <a
+                href={`/menu/${item.slug}`}
+                class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-[#FFB800] hover:bg-[#F59E0B] text-[#1C1917] font-black text-xs uppercase tracking-wider transition-all hover:scale-105 active:scale-95 shadow-md shadow-amber-500/10 cursor-pointer"
+              >
+                <span>Menüde Gör</span>
+                <span>→</span>
+              </a>
+
+              <button
+                type="button"
+                data-open-online-order-modal
+                class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider transition-all border border-white/20 cursor-pointer"
+              >
+                <span>Hemen Sipariş Et</span>
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>

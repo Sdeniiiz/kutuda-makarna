@@ -1,19 +1,27 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
-import BoxScrollAnimation from '../components/BoxScrollAnimation.astro';
-import ProductShowcase from '../components/ProductShowcase.astro';
-import FinalCTA from '../components/FinalCTA.astro';
+import BrandIntro from '../components/BrandIntro.astro';
+import MenuSection from '../components/MenuSection.astro';
+import SignatureDishes from '../components/SignatureDishes.astro';
+import RestaurantExperience from '../components/RestaurantExperience.astro';
+import BrandStory from '../components/BrandStory.astro';
+import BranchFinder from '../components/BranchFinder.astro';
+import OnlineOrderSection from '../components/OnlineOrderSection.astro';
+import FranchiseHomeSection from '../components/FranchiseHomeSection.astro';
+import SocialCommunitySection from '../components/SocialCommunitySection.astro';
 
 // Structured data for homepage
 const organizationSchema = {
   '@context': 'https://schema.org',
-  '@type': 'Organization',
-  'name': 'Kutuda Makarna',
+  '@type': 'Restaurant',
+  'name': 'Kutuda Makarna Restoran Zinciri',
   'alternateName': 'Kutuda Makarna Türkiye',
   'url': 'https://kutudamakarna.com',
   'logo': 'https://kutudamakarna.com/images/logo.png',
-  'slogan': 'Lezzet Kutuda Saklı!',
+  'slogan': 'Makarna Sadece Bir Yemek Değil. Lezzet Kutuda Saklı!',
+  'servesCuisine': ['Italian', 'Pasta', 'Fast Casual'],
+  'priceRange': '₺₺',
   'sameAs': [
     'https://www.instagram.com/kutudamakarna'
   ],
@@ -28,21 +36,39 @@ const organizationSchema = {
 ---
 
 <Layout
-  title="Kutuda Makarna | Taze Makarna & Özel Soslar"
-  description="Kutuda Makarna: Taze makarna, bol sos ve kutuda yepyeni bir lezzet deneyimi! Al dente makarnayı kutuda keşfet."
+  title="Kutuda Makarna | Taze Makarna Restoran Zinciri & Franchise"
+  description="Kutuda Makarna: Modern, enerjik ve lezzet odaklı taze makarna restoran zinciri. Tavadan kutuya al dente taze makarna, şubeler ve franchise fırsatları."
   canonical="https://kutudamakarna.com/"
   activePath="/"
   schemaJson={organizationSchema}
 >
-  <!-- 01: HERO (Fullscreen feel, punchy typography, large box, subtle parallax) -->
+  <!-- 01: HERO SECTION (Tam ekran 100vh, iştah açıcı gerçek fotoğraf, büyük headline, CTA'lar, social proof) -->
   <Hero />
 
-  <!-- 02: THE BOX EXPERIENCE (Scroll-driven GSAP pinned pasta filling animation) -->
-  <BoxScrollAnimation />
+  <!-- 02: MARKA INTRO ("MAKARNA SEVİYORUZ. HEM DE ÇOK.", scroll reveal) -->
+  <BrandIntro />
 
-  <!-- 03: PRODUCT SHOWCASE ("ŞİMDİ ZOR KISIM", photo-first minimal dark luxury) -->
-  <ProductShowcase />
+  <!-- 03: GÜNÜN MAKARNASI & MENÜ ("BUGÜNÜN MAKARNASI" spotlight, makarna ve içecekler) -->
+  <MenuSection />
 
-  <!-- 04: FINAL CTA ("ACIKTIYSAN KUTUYU BUL", opening box animation & triple action) -->
-  <FinalCTA />
+  <!-- 04: İMZA ÜRÜNLER ("İMZA LEZZETLER", editorial zig-zag alternating layout) -->
+  <SignatureDishes />
+
+  <!-- 05: RESTORAN DENEYİMİ ("BURADA SADECE MAKARNA YEMEZSİN.", mutfak, şef, akşam atmosferi galerisi) -->
+  <RestaurantExperience />
+
+  <!-- 06: MARKA HİKAYESİ ("BİZ KİMİZ?", 01-06 editorial büyüme hikayesi) -->
+  <BrandStory />
+
+  <!-- 07: ŞUBELER ("BİZE EN YAKIN ŞUBE NEREDE?", şehir filtreleri, Geolocation ile en yakın şube) -->
+  <BranchFinder />
+
+  <!-- 08: ONLINE SİPARİŞ ("MAKARNAYI EVE Mİ ALALIM?", "Canın makarna çektiyse bekleme.", kurye & gel-al) -->
+  <OnlineOrderSection />
+
+  <!-- 09: FRANCHISE SECTION ("BU HİKÂYENİN BİR PARÇASI OLMAK İSTER MİSİN?", franchise CTA) -->
+  <FranchiseHomeSection />
+
+  <!-- 10: SOSYAL MEDYA ("#KUTUDAMAKARNA TOPLULUĞU", Instagram / TikTok topluluk ızgarası) -->
+  <SocialCommunitySection />
 </Layout>

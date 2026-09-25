@@ -1,0 +1,108 @@
+---
+import type { BranchOrderSettings, BranchContact } from '../../types/branch';
+
+interface Props {
+  orderSettings?: BranchOrderSettings;
+  contact?: BranchContact;
+  branchName: string;
+}
+
+const { orderSettings, contact, branchName } = Astro.props;
+---
+
+<div class="bg-gradient-to-br from-amber-500/10 via-white to-amber-500/5 border border-amber-300/80 rounded-3xl p-6 sm:p-8 space-y-6 shadow-sm">
+  <div class="space-y-1">
+    <div class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-amber-100 text-[#B45309] text-[11px] font-black uppercase tracking-wider">
+      <span>🚀 SİPARİŞ KANALLARI</span>
+    </div>
+    <h3 class="text-2xl font-black text-[#1C1917] tracking-tight">
+      {branchName} Siparişi Ver
+    </h3>
+    <p class="text-xs text-stone-600">
+      Sıcak kutunuzu ister dükkandan gelip alın, ister kurye ile kapınıza gelsin.
+    </p>
+  </div>
+
+  <div class="space-y-3">
+    <!-- Call / Gel-Al -->
+    {contact?.phone && (
+      <a
+        href={`tel:${contact.phone}`}
+        class="w-full flex items-center justify-between p-4 rounded-2xl bg-[#FFB800] hover:bg-[#F59E0B] text-[#1C1917] font-black text-sm shadow-md shadow-amber-500/20 transition-all hover:scale-101 active:scale-99"
+      >
+        <div class="flex items-center gap-3">
+          <span class="text-xl">📞</span>
+          <div class="text-left">
+            <span class="block text-xs font-medium opacity-80">Telefonla Gel-Al Sipariş</span>
+            <span class="text-base font-black font-mono">{contact.phoneDisplay || contact.phone}</span>
+          </div>
+        </div>
+        <span class="text-xs font-black uppercase bg-[#1C1917] text-white px-3 py-1.5 rounded-xl">
+          HEMEN ARA →
+        </span>
+      </a>
+    )}
+
+    <!-- WhatsApp Quick Order -->
+    {contact?.whatsapp && (
+      <a
+        href={`https://wa.me/${contact.whatsapp.replace(/\+/g, '')}?text=Merhaba,%20Kutuda%20Makarna%20${encodeURIComponent(branchName)}%20siparişi%20vermek%20istiyorum.`}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="w-full flex items-center justify-between p-4 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-sm transition-all hover:scale-101 active:scale-99"
+      >
+        <div class="flex items-center gap-3">
+          <span class="text-xl">💬</span>
+          <div class="text-left">
+            <span class="block text-[11px] text-emerald-100">WhatsApp Hızlı Sipariş</span>
+            <span class="text-sm font-black">Mesajla Kolayca Sipariş Ver</span>
+          </div>
+        </div>
+        <span class="text-xs font-bold bg-white/20 px-3 py-1.5 rounded-xl">
+          YAZ →
+        </span>
+      </a>
+    )}
+  </div>
+
+  <!-- Delivery Partners -->
+  {orderSettings?.externalDeliveryPartners && (
+    <div class="pt-4 border-t border-stone-200/60 space-y-2">
+      <span class="block text-[11px] font-black uppercase tracking-wider text-stone-500">
+        Online Yemek Platformları
+      </span>
+      <div class="grid grid-cols-3 gap-2">
+        {orderSettings.externalDeliveryPartners.yemeksepetiUrl && (
+          <a
+            href={orderSettings.externalDeliveryPartners.yemeksepetiUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="p-2.5 rounded-xl bg-white border border-stone-200 hover:border-pink-500 text-center text-xs font-bold text-stone-800 transition-colors shadow-2xs"
+          >
+            Yemeksepeti
+          </a>
+        )}
+        {orderSettings.externalDeliveryPartners.getirUrl && (
+          <a
+            href={orderSettings.externalDeliveryPartners.getirUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="p-2.5 rounded-xl bg-white border border-stone-200 hover:border-purple-500 text-center text-xs font-bold text-stone-800 transition-colors shadow-2xs"
+          >
+            GetirYemek
+          </a>
+        )}
+        {orderSettings.externalDeliveryPartners.trendyolUrl && (
+          <a
+            href={orderSettings.externalDeliveryPartners.trendyolUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="p-2.5 rounded-xl bg-white border border-stone-200 hover:border-orange-500 text-center text-xs font-bold text-stone-800 transition-colors shadow-2xs"
+          >
+            Trendyol Yemek
+          </a>
+        )}
+      </div>
+    </div>
+  )}
+</div>

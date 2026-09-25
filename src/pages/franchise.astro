@@ -1,0 +1,425 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const pillars = [
+  {
+    num: '01',
+    title: 'Güçlü Marka & Sosyal Medya',
+    description: 'Genç, dinamik ve akılda kalıcı marka kimliği; TikTok ve Instagram’da binlerce organik paylaşım.'
+  },
+  {
+    num: '02',
+    title: 'Kanıtlanmış Restoran Konsepti',
+    description: 'Yüksek masa devir hızı, 3 dakikada kutuya dolan taze porsiyonlar ve hızlı yatırım geri dönüş süresi.'
+  },
+  {
+    num: '03',
+    title: 'Operasyon & Sistem Desteği',
+    description: 'Standartlaştırılmış reçeteler, entegre bulut POS sistemi ve anlık stok/satış takip panelleri.'
+  },
+  {
+    num: '04',
+    title: 'Kapsamlı Eğitim Desteği',
+    description: 'Şef akademisi, servis protokolleri ve işletme yönetimi üzerine şubeniz açılmadan önce verilen yoğun eğitim.'
+  },
+  {
+    num: '05',
+    title: 'Pazarlama & Lansman Desteği',
+    description: 'Ulusal sosyal medya kampanyaları, influencer işbirlikleri ve şubenize özel yerel reklam stratejileri.'
+  },
+  {
+    num: '06',
+    title: 'Lokasyon & Kiralama Analizi',
+    description: 'Doğru yaya trafiği, AVM veya cadde analizi, fizibilite raporları ve sözleşme müzakere danışmanlığı.'
+  },
+  {
+    num: '07',
+    title: 'Merkezi Tedarik Sistemi',
+    description: 'Durum buğdayından taze makarna hamuru, özel ambalajlar ve sos bazları tek elden şubenize ulaştırılır.'
+  },
+  {
+    num: '08',
+    title: 'Anahtar Teslim Açılış Desteği',
+    description: 'Mimari projelendirme, ekipman tedariği ve açılış haftasında yerinde refakat eden operasyon koçları.'
+  }
+];
+
+const timelineSteps = [
+  { step: '01', title: 'Başvuru', desc: 'Aşağıdaki form üzerinden ön başvurunuzu iletin.' },
+  { step: '02', title: 'Ön Değerlendirme', desc: 'Franchise ekibimiz profilinizi ve bütçenizi 48 saatte inceler.' },
+  { step: '03', title: 'Görüşme', desc: 'Yüz yüze veya online toplantıda detaylı model sunumu yapılır.' },
+  { step: '04', title: 'Lokasyon Değerlendirmesi', desc: 'Önerdiğiniz veya ekibimizin bulduğu lokasyon fizibilitesi yapılır.' },
+  { step: '05', title: 'Sözleşme', desc: 'Karşılıklı franchise sözleşmesi imzalanır ve bölge koruması verilir.' },
+  { step: '06', title: 'Eğitim', desc: 'İşletmeci ve mutfak ekibi Kutuda Makarna Akademisi’nde eğitilir.' },
+  { step: '07', title: 'Restoran Kurulumu', desc: 'Standart kurumsal mimari tasarım ve mutfak montajı tamamlanır.' },
+  { step: '08', title: 'Açılış', desc: 'Büyük açılış kampanyasıyla şehrinizde sıcak makarna servisi başlar!' }
+];
+---
+
+<Layout
+  title="Franchise Başvurusu | Kutuda Makarna Restoran Zinciri"
+  description="Kutuda Makarna franchise fırsatları: Kendi şehrinizde kanıtlanmış bir makarna restoranı açın. Yüksek kârlılık, anahtar teslim konsept ve merkezi tedarik."
+  canonical="https://kutudamakarna.com/franchise"
+  activePath="/franchise"
+>
+  <!-- 01: HERO SECTION -->
+  <section class="relative min-h-[75vh] flex items-center justify-center bg-[#0E1217] text-white overflow-hidden py-24 sm:py-32">
+    <!-- Ambient Background Photo -->
+    <div class="absolute inset-0 z-0">
+      <img
+        src="/images/mutfak-ve-sef.jpg"
+        alt="Kutuda Makarna profesyonel mutfak ve şefler"
+        class="w-full h-full object-cover opacity-25 scale-105"
+        loading="eager"
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-[#0E1217] via-[#0E1217]/80 to-[#0E1217]/90"></div>
+    </div>
+
+    <!-- Gold Ambient Light -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-[#FFB800]/15 rounded-full blur-[150px] pointer-events-none"></div>
+
+    <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-[#FFB800] text-xs sm:text-sm font-black uppercase tracking-widest">
+        <span>💼</span>
+        <span>FRANCHISE ORTAKLIK MODELİ</span>
+      </div>
+
+      <h1 class="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight leading-[1.05] uppercase font-sans text-stone-100">
+        MARKAYI BÜYÜTÜYORUZ.<br />
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FFB800] via-[#F59E0B] to-[#D97706]">
+          SİZ DE BU BÜYÜMENİN PARÇASI OLUN.
+        </span>
+      </h1>
+
+      <p class="text-lg sm:text-2xl text-stone-300 font-light leading-relaxed max-w-3xl mx-auto text-balance">
+        Türkiye’nin en hızlı büyüyen taze makarna restoran zinciriyle geleceğin yeme-içme sektörüne yatırım yapın.
+      </p>
+
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a
+          href="#basvuru"
+          class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-[#FFB800] hover:bg-[#F59E0B] text-[#1C1917] font-black text-sm uppercase tracking-wider shadow-xl shadow-amber-500/20 transition-all hover:scale-105 active:scale-95"
+        >
+          <span>Hemen Başvuru Yap</span>
+          <span>↓</span>
+        </a>
+        <a
+          href="#surec"
+          class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-sm uppercase tracking-wider transition-all"
+        >
+          <span>Süreci İncele</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02: NEDEN BİZİMLE? (8 SÜTUN) -->
+  <section class="py-24 sm:py-32 bg-[#FBF9F5] border-b border-stone-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto space-y-4 mb-20">
+        <span class="text-xs font-black uppercase tracking-widest text-[#B45309]">AVANTAJLARIMIZ</span>
+        <h2 class="text-3xl sm:text-5xl font-black text-[#1C1917] tracking-tight uppercase font-sans">
+          NEDEN BİZİMLE?
+        </h2>
+        <p class="text-base sm:text-lg text-stone-600">
+          Kutuda Makarna franchise sistemi, bir restoran işletmecisinin ihtiyaç duyduğu tüm araçları tek bir çatı altında sunar.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {pillars.map((item) => (
+          <div class="p-8 rounded-3xl bg-white border border-stone-200 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+            <div class="space-y-3">
+              <span class="text-3xl sm:text-4xl font-black font-mono text-[#D97706] group-hover:scale-110 inline-block transition-transform">
+                {item.num}
+              </span>
+              <h3 class="text-lg font-black text-[#1C1917] leading-snug">
+                {item.title}
+              </h3>
+              <p class="text-xs sm:text-sm text-stone-500 leading-relaxed font-normal">
+                {item.description}
+              </p>
+            </div>
+            <div class="pt-4 mt-4 border-t border-stone-100 flex items-center text-[10px] font-bold text-stone-400 uppercase tracking-widest">
+              <span>Merkezi Standart</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 03: FRANCHISE SÜRECİ (8 AŞAMALI MODERN TIMELINE) -->
+  <section id="surec" class="py-24 sm:py-32 bg-[#161B22] text-white border-b border-stone-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto space-y-4 mb-20">
+        <span class="text-xs font-black uppercase tracking-widest text-[#FFB800]">ADIM ADIM YOL HARİTASI</span>
+        <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight uppercase font-sans">
+          FRANCHISE SÜRECİ
+        </h2>
+        <p class="text-base sm:text-lg text-stone-400">
+          İlk başvurudan açılış gününe kadar şeffaf, planlı ve profesyonel 8 aşamalı yolculuk.
+        </p>
+      </div>
+
+      <!-- Modern Timeline Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {timelineSteps.map((item) => (
+          <div class="relative p-6 rounded-3xl bg-white/5 border border-white/10 hover:border-amber-400/50 transition-all duration-300 flex flex-col justify-between group">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-3xl font-black font-mono text-[#FFB800]">{item.step}</span>
+                <span class="w-2.5 h-2.5 rounded-full bg-[#FFB800] opacity-60 group-hover:scale-125 transition-transform"></span>
+              </div>
+              <h3 class="text-lg font-black text-white">{item.title}</h3>
+              <p class="text-xs sm:text-sm text-stone-400 leading-relaxed font-light">{item.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 04: FRANCHISE BAŞVURU FORMU (PROFESYONEL VE İNTERAKTİF) -->
+  <section id="basvuru" class="py-24 sm:py-36 bg-[#F4EFEA]">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="bg-white rounded-3xl border border-stone-200 shadow-2xl p-8 sm:p-14">
+        
+        <!-- Header -->
+        <div class="text-center space-y-3 mb-10">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-[#B45309] text-xs font-black uppercase tracking-widest">
+            <span>📝</span>
+            <span>RESMİ BAŞVURU FORMU</span>
+          </div>
+
+          <h2 class="text-3xl sm:text-5xl font-black text-[#1C1917] tracking-tight uppercase font-sans">
+            FRANCHISE BAŞVURUSU
+          </h2>
+
+          <p class="text-sm sm:text-base text-stone-600 max-w-xl mx-auto">
+            Bilgilerinizi eksiksiz doldurun; yatırım ve büyüme departmanımız 48 saat içinde sizinle iletişime geçsin.
+          </p>
+        </div>
+
+        <!-- Application Form -->
+        <form id="franchise-application-form" class="space-y-6">
+          
+          <!-- Name & Phone -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="fr-name" class="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1.5">
+                Ad Soyad *
+              </label>
+              <input
+                type="text"
+                id="fr-name"
+                name="name"
+                placeholder="Örn: Ahmet Yılmaz"
+                required
+                class="w-full px-4 py-3.5 rounded-xl bg-[#FAF8F5] border border-stone-300 text-[#1C1917] text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#D97706]"
+              />
+            </div>
+
+            <div>
+              <label for="fr-phone" class="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1.5">
+                Telefon Numarası *
+              </label>
+              <input
+                type="tel"
+                id="fr-phone"
+                name="phone"
+                placeholder="0 (5XX) XXX XX XX"
+                required
+                class="w-full px-4 py-3.5 rounded-xl bg-[#FAF8F5] border border-stone-300 text-[#1C1917] text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#D97706]"
+              />
+            </div>
+          </div>
+
+          <!-- Email & City/District -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label for="fr-email" class="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1.5">
+                E-posta Adresi *
+              </label>
+              <input
+                type="email"
+                id="fr-email"
+                name="email"
+                placeholder="ad@ornek.com"
+                required
+                class="w-full px-4 py-3.5 rounded-xl bg-[#FAF8F5] border border-stone-300 text-[#1C1917] text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#D97706]"
+              />
+            </div>
+
+            <div>
+              <label for="fr-city" class="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1.5">
+                Şehir *
+              </label>
+              <input
+                type="text"
+                id="fr-city"
+                name="city"
+                placeholder="Örn: İstanbul"
+                required
+                class="w-full px-4 py-3.5 rounded-xl bg-[#FAF8F5] border border-stone-300 text-[#1C1917] text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#D97706]"
+              />
+            </div>
+
+            <div>
+              <label for="fr-district" class="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1.5">
+                İlçe *
+              </label>
+              <input
+                type="text"
+                id="fr-district"
+                name="district"
+                placeholder="Örn: Beşiktaş"
+                required
+                class="w-full px-4 py-3.5 rounded-xl bg-[#FAF8F5] border border-stone-300 text-[#1C1917] text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#D97706]"
+              />
+            </div>
+          </div>
+
+          <!-- Budget & Location Type -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="fr-budget" class="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1.5">
+                Yatırım Bütçesi *
+              </label>
+              <select
+                id="fr-budget"
+                name="budget"
+                required
+                class="w-full px-4 py-3.5 rounded-xl bg-[#FAF8F5] border border-stone-300 text-[#1C1917] text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#D97706]"
+              >
+                <option value="" disabled selected>Yatırım Bütçenizi Seçin</option>
+                <option value="1.5m-2.5m">1.500.000 TL - 2.500.000 TL</option>
+                <option value="2.5m-4m">2.500.000 TL - 4.000.000 TL</option>
+                <option value="4m-plus">4.000.000 TL ve Üzeri</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="fr-location-type" class="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1.5">
+                Tercih Edilen Lokasyon *
+              </label>
+              <select
+                id="fr-location-type"
+                name="locationType"
+                required
+                class="w-full px-4 py-3.5 rounded-xl bg-[#FAF8F5] border border-stone-300 text-[#1C1917] text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#D97706]"
+              >
+                <option value="" disabled selected>Lokasyon Türü Seçin</option>
+                <option value="cadde">İşlek Cadde / Bulvar</option>
+                <option value="avm">AVM Food Court / Bağımsız Alan</option>
+                <option value="kampus">Üniversite Kampüsü / Öğrenci Bölgesi</option>
+                <option value="sahil">Sahil & Marina Şeridi</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Experience -->
+          <div>
+            <label for="fr-experience" class="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1.5">
+              Restoran / Yeme-İçme İşletme Deneyiminiz Var mı? *
+            </label>
+            <select
+              id="fr-experience"
+              name="experience"
+              required
+              class="w-full px-4 py-3.5 rounded-xl bg-[#FAF8F5] border border-stone-300 text-[#1C1917] text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#D97706]"
+            >
+              <option value="var">Evet, daha önce restoran/cafe işlettim</option>
+              <option value="yok">Hayır, ilk defa bu sektöre yatırım yapacağım</option>
+              <option value="diger">Farklı sektörde işletme tecrübem var</option>
+            </select>
+          </div>
+
+          <!-- Message -->
+          <div>
+            <label for="fr-message" class="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1.5">
+              Ek Bilgiler & Mesajınız
+            </label>
+            <textarea
+              id="fr-message"
+              name="message"
+              rows="3"
+              placeholder="Düşündüğünüz dükkan lokasyonu, zamanlama veya belirtmek istediğiniz detaylar..."
+              class="w-full px-4 py-3.5 rounded-xl bg-[#FAF8F5] border border-stone-300 text-[#1C1917] text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#D97706]"
+            ></textarea>
+          </div>
+
+          <!-- KVKK Checkbox -->
+          <div class="flex items-start gap-3 pt-2">
+            <input
+              type="checkbox"
+              id="fr-kvkk"
+              required
+              class="mt-1 w-4 h-4 rounded text-[#D97706] focus:ring-[#D97706] border-stone-300"
+            />
+            <label for="fr-kvkk" class="text-xs text-stone-600 leading-relaxed">
+              KVKK metnini okudum, kişisel verilerimin franchise başvuru süreçlerinin yürütülmesi amacıyla işlenmesini kabul ediyorum.
+            </label>
+          </div>
+
+          <!-- Submit CTA -->
+          <button
+            type="submit"
+            class="w-full py-4 rounded-2xl bg-[#1C1917] hover:bg-[#D97706] text-white font-black text-sm uppercase tracking-wider shadow-xl transition-all hover:scale-102 active:scale-98 cursor-pointer"
+          >
+            Franchise Başvurusu Gönder →
+          </button>
+        </form>
+
+        <!-- Success Feedback Screen (Initially Hidden) -->
+        <div id="franchise-success-screen" class="hidden text-center py-12 space-y-4">
+          <div class="w-20 h-20 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto text-3xl font-black">
+            ✓
+          </div>
+          <h3 class="text-3xl font-black text-[#1C1917]">Başvurunuz Başarıyla İletildi!</h3>
+          <p class="text-base text-stone-600 max-w-md mx-auto leading-relaxed">
+            Kutuda Makarna Franchise departmanımız bilgilerinizi incelemeye aldı. Yatırım temsilcimiz 48 saat içerisinde sizinle telefonla iletişime geçecektir.
+          </p>
+          <div class="p-4 bg-amber-50 border border-amber-200 rounded-2xl text-xs font-mono font-bold text-[#B45309] max-w-sm mx-auto">
+            Başvuru Takip Kodu: <span class="text-stone-900 ml-1">#FR-KM-2026-X</span>
+          </div>
+          <div class="pt-4">
+            <a
+              href="/"
+              class="inline-block px-8 py-3 rounded-xl bg-[#1C1917] text-white text-xs font-bold uppercase hover:bg-stone-800"
+            >
+              Ana Sayfaya Dön
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+</Layout>
+
+<script>
+  function setupFranchiseForm() {
+    const form = document.getElementById('franchise-application-form');
+    const successScreen = document.getElementById('franchise-success-screen');
+
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      form.classList.add('hidden');
+      successScreen?.classList.remove('hidden');
+      window.scrollTo({ top: successScreen?.offsetTop ? successScreen.offsetTop - 100 : 0, behavior: 'smooth' });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupFranchiseForm);
+  } else {
+    setupFranchiseForm();
+  }
+</script>

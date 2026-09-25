@@ -1,8 +1,19 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { branches, type Branch } from '../../data/branches';
+import { getAllBranches, getBranchBySlug } from '../../services/branchService';
+import { getBranchProducts } from '../../services/productService';
+import { getBranchCampaigns } from '../../services/campaignService';
+import BranchHero from '../../components/branches/BranchHero.astro';
+import BranchInfo from '../../components/branches/BranchInfo.astro';
+import BranchOrderCTA from '../../components/branches/BranchOrderCTA.astro';
+import BranchMap from '../../components/branches/BranchMap.astro';
+import CampaignSection from '../../components/campaigns/CampaignSection.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import WhyBox from '../../components/WhyBox.astro';
+import type { BranchAggregate } from '../../types/branch';
 
 export function getStaticPaths() {
+  const branches = getAllBranches();
   return branches.map((branch) => ({
     params: { slug: branch.slug },
     props: { branch },
@@ -10,32 +21,35 @@ export function getStaticPaths() {
 }
 
 interface Props {
-  branch: Branch;
+  branch: BranchAggregate;
 }
 
 const { branch } = Astro.props;
+const branchProducts = getBranchProducts(branch.slug);
+const branchCampaigns = getBranchCampaigns(branch.slug);
+const availableMenu = branchProducts.filter(p => p.isAvailable);
 
 // LocalBusiness / FastFoodRestaurant JSON-LD Schema
 const branchSchema = {
   '@context': 'https://schema.org',
   '@type': 'FastFoodRestaurant',
   'name': `Kutuda Makarna - ${branch.name}`,
-  'image': 'https://kutudamakarna.com/images/kutuda-makarna-sube-konsepti.jpg',
+  'image': `https://kutudamakarna.com${branch.branding?.heroImage?.desktop || branch.image}`,
   'url': `https://kutudamakarna.com/subeler/${branch.slug}`,
-  'telephone': branch.phone,
+  'telephone': branch.contact?.phone || branch.phone,
   'priceRange': '₺₺',
   'servesCuisine': ['Italian', 'Pasta', 'Fast Casual'],
   'address': {
     '@type': 'PostalAddress',
-    'streetAddress': branch.address,
-    'addressLocality': branch.district,
-    'addressRegion': branch.city,
+    'streetAddress': branch.location?.address || branch.address,
+    'addressLocality': branch.location?.district || branch.district,
+    'addressRegion': branch.location?.city || branch.city,
     'addressCountry': 'TR'
   },
   'geo': {
     '@type': 'GeoCoordinates',
-    'latitude': branch.coordinates.lat,
-    'longitude': branch.coordinates.lng
+    'latitude': branch.location?.coordinates.lat || branch.coordinates.lat,
+    'longitude': branch.location?.coordinates.lng || branch.coordinates.lng
   },
   'openingHoursSpecification': [
     {
@@ -51,7 +65,7 @@ const branchSchema = {
       'closes': '01:00'
     }
   ],
-  'menu': 'https://kutudamakarna.com/menu'
+  'menu': `https://kutudamakarna.com/subeler/${branch.slug}#menu`
 };
 
 const breadcrumbSchema = {
@@ -81,207 +95,154 @@ const breadcrumbSchema = {
 ---
 
 <Layout
-  title={`Kutuda Makarna ${branch.name} | Adres, Telefon & Yol Tarifi`}
-  description={`Kutuda Makarna ${branch.name} nerede? ${branch.district} ${branch.city} şubesi adresi, çalışma saatleri, telefon numarası ve Google Haritalar yol tarifi.`}
-  canonical={`https://kutudamakarna.com/subeler/${branch.slug}`}
+  title={branch.seo?.metaTitle || `Kutuda Makarna ${branch.name} | Adres, Menü & Sipariş`}
+  description={branch.seo?.metaDescription || `Kutuda Makarna ${branch.name} nerede? ${branch.district} ${branch.city} şubesi adresi, çalışma saatleri, telefon numarası ve yol tarifi.`}
+  canonical={branch.seo?.canonicalUrl || `https://kutudamakarna.com/subeler/${branch.slug}`}
   activePath="/subeler"
   schemaJson={[branchSchema, breadcrumbSchema]}
 >
-  <div class="py-10 lg:py-16 bg-[#0E0E10]">
+  <div class="py-8 lg:py-14 bg-[#FBF9F5]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <!-- Breadcrumb -->
-      <nav aria-label="Breadcrumb" class="mb-8 text-xs font-semibold text-zinc-400">
-        <ol class="flex items-center gap-2 flex-wrap">
-          <li><a href="/" class="hover:text-[#FFB800] transition-colors">Ana Sayfa</a></li>
-          <li><span>/</span></li>
-          <li><a href="/subeler" class="hover:text-[#FFB800] transition-colors">Şubelerimiz</a></li>
-          <li><span>/</span></li>
-          <li class="text-[#FFB800]">{branch.name}</li>
-        </ol>
-      </nav>
+      <!-- Top Navigation & Quick Switcher -->
+      <div class="flex items-center justify-between mb-6 flex-wrap gap-4">
+        <nav aria-label="Breadcrumb" class="text-xs font-semibold text-stone-500">
+          <ol class="flex items-center gap-2 flex-wrap">
+            <li><a href="/" class="hover:text-[#D97706] transition-colors">Ana Sayfa</a></li>
+            <li><span class="text-stone-300">/</span></li>
+            <li><a href="/subeler" class="hover:text-[#D97706] transition-colors">Şubelerimiz</a></li>
+            <li><span class="text-stone-300">/</span></li>
+            <li class="text-[#D97706] font-bold">{branch.name}</li>
+          </ol>
+        </nav>
 
-      <!-- Main Layout -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        <button
+          type="button"
+          data-open-branch-selector
+          class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-stone-200 hover:border-amber-400 text-xs font-bold text-stone-700 shadow-2xs hover:shadow-xs transition-all cursor-pointer"
+        >
+          <span>📍 Şube Değiştir: <strong>{branch.name}</strong></span>
+          <span class="text-[#D97706]">▼</span>
+        </button>
+      </div>
+
+      <!-- Announcement Banner (If active for this branch) -->
+      {branch.theme?.announcementBanner?.isActive && (
+        <div class="mb-8 p-4 rounded-2xl bg-amber-50 border border-amber-200/80 flex items-center justify-between gap-4 text-xs font-bold text-[#92400E]">
+          <div class="flex items-center gap-2.5">
+            <span class="text-base">📢</span>
+            <span>{branch.theme.announcementBanner.text}</span>
+          </div>
+          <span class="px-2.5 py-1 rounded-full bg-amber-100 text-[10px] font-black uppercase tracking-wider">ŞUBE DUYURUSU</span>
+        </div>
+      )}
+
+      <!-- 1. Engine Component: Branch Hero -->
+      <BranchHero branch={branch} />
+
+      <!-- 2. Main Two-Column Engine Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
         
-        <!-- Left: NAP & Information -->
-        <div class="lg:col-span-7 space-y-8">
+        <!-- Left Column: Campaigns, Menu, Highlights, FAQs -->
+        <div class="lg:col-span-8 space-y-12">
           
-          <div>
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-800 text-xs font-bold mb-4">
-              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              <span>Şu An Açık • Sıcak Servis Devam Ediyor</span>
-            </div>
-            
-            <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight font-sans">
-              KUTUDA MAKARNA <span class="text-[#FFB800]">{branch.name}</span>
-            </h1>
-            <p class="text-zinc-400 mt-3 text-base sm:text-lg">
-              {branch.district} bölgesinde taze makarna, nefis soslar ve 3 dakikada hızlı teslimat lezzeti.
-            </p>
-          </div>
+          <!-- Branch Active Campaigns -->
+          {branchCampaigns.length > 0 && (
+            <CampaignSection campaigns={branchCampaigns} branchName={branch.name} />
+          )}
 
-          <!-- Quick Contact & Hours Box -->
-          <div class="bg-[#14141A] border border-zinc-800 rounded-2xl p-6 sm:p-8 space-y-6">
-            
-            <!-- Address -->
-            <div class="flex items-start gap-4">
-              <div class="w-10 h-10 rounded-xl bg-[#FFB800]/10 border border-[#FFB800]/30 flex items-center justify-center text-[#FFB800] shrink-0 text-lg">
-                📍
-              </div>
+          <!-- Branch Menu Grid (Auto-Resolved with Branch Prices) -->
+          <section id="menu" class="space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b border-stone-200/80 pb-4">
               <div>
-                <h3 class="text-xs font-bold uppercase tracking-wider text-zinc-400">Açık Adres</h3>
-                <p class="text-sm font-semibold text-white mt-0.5 leading-relaxed">{branch.address}</p>
-              </div>
-            </div>
-
-            <!-- Phone -->
-            <div class="flex items-start gap-4">
-              <div class="w-10 h-10 rounded-xl bg-[#FFB800]/10 border border-[#FFB800]/30 flex items-center justify-center text-[#FFB800] shrink-0 text-lg">
-                📞
-              </div>
-              <div>
-                <h3 class="text-xs font-bold uppercase tracking-wider text-zinc-400">Sipariş & Bilgi Hattı</h3>
-                <a href={`tel:${branch.phone}`} class="text-lg font-black text-[#FFB800] hover:underline font-mono mt-0.5 block">
-                  {branch.phoneDisplay}
-                </a>
-                <span class="text-[11px] text-zinc-500">Gel-Al için önceden arayıp hazırlatabilirsiniz.</span>
-              </div>
-            </div>
-
-            <!-- Hours -->
-            <div class="flex items-start gap-4">
-              <div class="w-10 h-10 rounded-xl bg-[#FFB800]/10 border border-[#FFB800]/30 flex items-center justify-center text-[#FFB800] shrink-0 text-lg">
-                🕒
-              </div>
-              <div class="space-y-1">
-                <h3 class="text-xs font-bold uppercase tracking-wider text-zinc-400">Çalışma Saatleri</h3>
-                <div class="text-sm text-zinc-200">
-                  <span class="font-medium text-white">Hafta İçi:</span> {branch.workingHours.weekdays}
+                <div class="inline-flex items-center gap-2 px-3 py-0.5 rounded-full bg-amber-100 text-[#B45309] text-[10px] font-black uppercase tracking-wider mb-2">
+                  <span>🍝 GÜNCEL ŞUBE MENÜSÜ</span>
                 </div>
-                <div class="text-sm text-zinc-200">
-                  <span class="font-medium text-white">Hafta Sonu:</span> {branch.workingHours.weekend}
-                </div>
-                {branch.workingHours.note && (
-                  <p class="text-xs text-[#FFB800] pt-1">💡 {branch.workingHours.note}</p>
-                )}
+                <h2 class="text-2xl sm:text-3xl font-black text-[#1C1917] tracking-tight">
+                  {branch.name} Lezzetleri
+                </h2>
               </div>
+              <span class="text-xs text-stone-500 font-mono">
+                {availableMenu.length} Çeşit Hazır • 3 Dk Servis
+              </span>
             </div>
 
-          </div>
-
-          <!-- Directions & Transportation Guide -->
-          <div class="space-y-4">
-            <h2 class="text-xl font-bold text-white uppercase tracking-wider border-l-2 border-[#FFB800] pl-3">
-              Nasıl Gidilir? (Ulaşım Rehberi)
-            </h2>
-            <div class="bg-[#16161C] border border-zinc-800 rounded-2xl p-6 text-sm text-zinc-300 leading-relaxed">
-              <p>{branch.directionsGuide}</p>
-            </div>
-          </div>
-
-          <!-- Nearby Landmarks (Local SEO Booster) -->
-          <div class="space-y-3">
-            <h3 class="text-sm font-bold text-white uppercase tracking-wider">
-              {branch.district} Yakınındaki Önemli Noktalar
-            </h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-zinc-300">
-              {branch.nearbySpots.map((spot) => (
-                <div class="bg-zinc-900/80 border border-zinc-800 p-3 rounded-xl flex items-center gap-2.5">
-                  <span class="text-[#FFB800]">📌</span>
-                  <span>{spot}</span>
-                </div>
+            <!-- Product Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {availableMenu.map((item) => (
+                <ProductCard item={item as any} />
               ))}
             </div>
-          </div>
+          </section>
 
-          <!-- Branch FAQs -->
-          {branch.faqs.length > 0 && (
-            <div class="space-y-4 pt-4">
-              <h2 class="text-xl font-bold text-white uppercase tracking-wider border-l-2 border-[#FFB800] pl-3">
-                {branch.name} Hakkında Sıkça Sorulanlar
-              </h2>
-              <div class="space-y-3">
-                {branch.faqs.map((f) => (
-                  <div class="bg-[#14141A] border border-zinc-800 rounded-xl p-5 space-y-2">
-                    <h4 class="text-sm font-bold text-white">{f.question}</h4>
-                    <p class="text-xs text-zinc-400 leading-relaxed">{f.answer}</p>
+          <!-- Branch Highlights -->
+          {branch.highlights && branch.highlights.length > 0 && (
+            <section class="bg-white border border-stone-200/90 rounded-3xl p-6 sm:p-8 space-y-4 shadow-sm">
+              <h3 class="text-lg font-black text-[#1C1917] tracking-tight flex items-center gap-2">
+                <span>⭐</span>
+                <span>Bu Şubenin Öne Çıkan Özellikleri</span>
+              </h3>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {branch.highlights.map((h) => (
+                  <div class="flex items-start gap-3 p-3 rounded-2xl bg-stone-50 border border-stone-100 text-xs font-semibold text-stone-700">
+                    <span class="text-[#D97706] text-sm">✓</span>
+                    <span>{h}</span>
                   </div>
                 ))}
               </div>
-            </div>
+            </section>
           )}
+
+          <!-- Branch Specific FAQs -->
+          {branch.faqs && branch.faqs.length > 0 && (
+            <section class="space-y-4">
+              <h3 class="text-xl font-black text-[#1C1917] tracking-tight flex items-center gap-2">
+                <span>❓</span>
+                <span>{branch.name} Hakkında Sıkça Sorulanlar</span>
+              </h3>
+              <div class="space-y-3">
+                {branch.faqs.map((faq) => (
+                  <details class="group bg-white border border-stone-200/90 rounded-2xl overflow-hidden transition-all hover:border-amber-400/60 shadow-2xs">
+                    <summary class="flex items-center justify-between p-5 text-left font-bold text-[#1C1917] cursor-pointer select-none group-open:text-[#D97706] list-none text-sm">
+                      <span>{faq.question}</span>
+                      <span class="w-6 h-6 rounded-full bg-stone-100 flex items-center justify-center text-xs text-[#D97706] group-open:rotate-180 transition-transform shrink-0 ml-2">
+                        ▼
+                      </span>
+                    </summary>
+                    <div class="px-5 pb-5 text-xs sm:text-sm text-stone-600 leading-relaxed border-t border-stone-100 pt-3">
+                      {faq.answer}
+                    </div>
+                  </details>
+                ))}
+              </div>
+            </section>
+          )}
+
+          <!-- Directions and Transportation Guide -->
+          <BranchMap location={branch.location} branchName={branch.name} />
 
         </div>
 
-        <!-- Right: Map Card & Fast Actions -->
-        <div class="lg:col-span-5 space-y-6">
-          
-          <!-- Storefront Photo Card -->
-          <div class="relative rounded-2xl overflow-hidden border border-zinc-800 bg-[#14141A] shadow-xl">
-            <img
-              src="/images/kutuda-makarna-sube-konsepti.jpg"
-              alt={`Kutuda Makarna ${branch.name} Mağaza Görünümü`}
-              class="w-full h-64 object-cover"
-              loading="lazy"
+        <!-- Right Column: Sticky Operational Card & Order CTAs -->
+        <div class="lg:col-span-4 space-y-6">
+          <div class="sticky top-24 space-y-6">
+            <!-- 3. Engine Component: Ordering Channels -->
+            <BranchOrderCTA
+              orderSettings={branch.orderSettings}
+              contact={branch.contact}
+              branchName={branch.name}
             />
-            <div class="p-5 bg-gradient-to-t from-[#14141A] to-transparent">
-              <span class="text-xs font-bold text-[#FFB800] uppercase tracking-wider block">Kiosk & Oturma Alanı</span>
-              <p class="text-xs text-zinc-300 mt-1">Sıcak ahşap ve neon sarı atmosferimizle sizleri bekliyoruz.</p>
-            </div>
+
+            <!-- 4. Engine Component: Operational NAP & Hours -->
+            <BranchInfo branch={branch} />
           </div>
-
-          <!-- Quick Action Buttons -->
-          <div class="bg-[#14141A] border border-zinc-800 rounded-2xl p-6 space-y-4">
-            <h3 class="text-base font-bold text-white">Hızlı İşlemler</h3>
-            
-            <a
-              href={branch.googleMapsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="w-full py-4 rounded-xl bg-[#FFB800] text-[#0E0E10] font-black text-sm flex items-center justify-center gap-2 hover:bg-[#F59E0B] shadow-lg shadow-[#FFB800]/25 transition-transform hover:scale-102"
-            >
-              <span>GOOGLE HARİTALAR'DA AÇ</span>
-              <span>↗</span>
-            </a>
-
-            <a
-              href={`tel:${branch.phone}`}
-              class="w-full py-3.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white font-bold text-sm flex items-center justify-center gap-2 transition-colors border border-zinc-700"
-            >
-              <span>TELEFONLA SİPARİŞ VER</span>
-              <span>📞</span>
-            </a>
-
-            <a
-              href="/menu"
-              class="w-full py-3.5 rounded-xl border border-zinc-700 hover:border-[#FFB800] text-zinc-200 hover:text-white font-bold text-sm flex items-center justify-center gap-2 transition-colors"
-            >
-              <span>ŞUBE MENÜSÜNÜ İNCELE</span>
-              <span>🍝</span>
-            </a>
-          </div>
-
-          <!-- Other Branches Navigation -->
-          <div class="bg-[#14141A] border border-zinc-800 rounded-2xl p-6 space-y-4">
-            <h3 class="text-xs font-bold text-zinc-400 uppercase tracking-wider">Diğer Samsun Şubelerimiz</h3>
-            <div class="space-y-2">
-              {branches.filter(b => b.slug !== branch.slug).map(ob => (
-                <a
-                  href={`/subeler/${ob.slug}`}
-                  class="flex items-center justify-between p-3 rounded-xl bg-zinc-900/60 hover:bg-zinc-800 border border-zinc-800 text-xs font-semibold text-zinc-300 hover:text-white transition-colors"
-                >
-                  <span>{ob.name}</span>
-                  <span class="text-[#FFB800]">İncele →</span>
-                </a>
-              ))}
-            </div>
-          </div>
-
         </div>
 
       </div>
 
     </div>
   </div>
+
+  <!-- Global Brand Section: Why Box (Reusable) -->
+  <WhyBox />
 </Layout>

@@ -1,0 +1,114 @@
+---
+const galleryItems = [
+  {
+    title: 'Açık Mutfak & Şef Dokunuşu',
+    subtitle: 'Sipariş anında alev alan tavalar ve taze makarna pişirme ritüeli.',
+    image: '/images/mutfak-ve-sef.jpg',
+    span: 'col-span-1 md:col-span-2 md:row-span-2',
+    aspect: 'aspect-[4/3] sm:aspect-auto'
+  },
+  {
+    title: 'Hakiki Grana Padano & Parmesan',
+    subtitle: 'Kutunun sıcaklığıyla eriyen taze rendelenmiş asil peynirler.',
+    image: '/images/makarna-parmesan.jpg',
+    span: 'col-span-1',
+    aspect: 'aspect-[4/3]'
+  },
+  {
+    title: 'Sıcak Akşam Atmosferi',
+    subtitle: 'Uzun sohbetlerin ve kahkahaların eksik olmadığı masalar.',
+    image: '/images/restoran-atmosfer.jpg',
+    span: 'col-span-1',
+    aspect: 'aspect-[4/3]'
+  },
+  {
+    title: 'Modern Restoran İç Mekanı',
+    subtitle: 'Doğal ahşap dokular, sıcak aydınlatmalar ve rahat bistro alanları.',
+    image: '/images/restoran-ic-mekan.jpg',
+    span: 'col-span-1 md:col-span-2',
+    aspect: 'aspect-[16/9]'
+  },
+  {
+    title: 'Tavada Sos Bağlama Ustalığı',
+    subtitle: 'Her porsiyona özel zeytinyağı, krema ve taze baharat emülsiyonu.',
+    image: '/images/kutuda-makarna-tavada-taze-pisirme.jpg',
+    span: 'col-span-1',
+    aspect: 'aspect-[4/3]'
+  },
+  {
+    title: 'Açık Hava & Sosyal Anlar',
+    subtitle: 'Sahilde, parkta ya da terasta kutu konforuyla lezzeti paylaş.',
+    image: '/images/kutuda-makarna-sahil-deneyimi.jpg',
+    span: 'col-span-1',
+    aspect: 'aspect-[4/3]'
+  }
+];
+---
+
+<section id="restoran-deneyimi" class="py-20 sm:py-32 bg-[#FBF9F5] border-b border-stone-200/80 w-full overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- Section Header -->
+    <div class="text-center max-w-3xl mx-auto space-y-4 mb-14 sm:mb-16">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-[#B45309] text-xs font-black uppercase tracking-widest">
+        <span>✨</span>
+        <span>ATMOSFER & SOSYAL DENEYİM</span>
+      </div>
+
+      <h2 class="text-3xl sm:text-5xl md:text-6xl font-black text-[#1C1917] tracking-tight uppercase font-sans break-words">
+        BURADA SADECE MAKARNA YEMEZSİN.
+      </h2>
+
+      <p class="text-base sm:text-xl text-stone-600 leading-relaxed font-normal">
+        Arkadaşlarınla buluştuğun, uzun sohbetlerin başladığı ve bir tabak makarnanın bahaneye dönüştüğü yer.
+      </p>
+    </div>
+
+    <!-- Gallery Grid (Responsive Bento Grid) -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 auto-rows-auto sm:auto-rows-[280px]">
+      {galleryItems.map((item) => (
+        <div class={`group relative rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-stone-200 bg-stone-900 ${item.span} min-h-[220px]`}>
+          <img
+            src={item.image}
+            alt={item.title}
+            class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-106 brightness-95 group-hover:brightness-90"
+            loading="lazy"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent"></div>
+
+          <!-- Bottom Caption Content -->
+          <div class="absolute bottom-0 left-0 right-0 p-5 sm:p-6 space-y-1">
+            <span class="inline-block w-6 h-1 bg-[#FFB800] rounded-full mb-1"></span>
+            <h3 class="text-lg sm:text-xl font-black text-white tracking-tight">
+              {item.title}
+            </h3>
+            <p class="text-xs text-stone-300 font-light leading-relaxed max-w-lg">
+              {item.subtitle}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Atmosphere Fast-Casual Experience Banner (NO RESERVATION) -->
+    <div class="mt-12 sm:mt-14 p-6 sm:p-10 rounded-3xl bg-[#1C1917] text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+      <div class="space-y-2 text-center md:text-left">
+        <span class="text-xs font-black uppercase tracking-wider text-[#FFB800]">Sıcak Kutu Deneyimi</span>
+        <h3 class="text-2xl sm:text-3xl font-black text-white">Gel-Al veya Masada Anında Ye</h3>
+        <p class="text-stone-400 text-xs sm:text-sm max-w-xl">
+          Tüm şubelerimizde açık hava oturma alanları, beklemeden 3 dakikada teslim hızlı servis ve sıcak termal kutu konforu seni bekliyor.
+        </p>
+      </div>
+
+      <div class="flex items-center gap-3 w-full sm:w-auto">
+        <a
+          href="/subeler"
+          class="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-[#FFB800] hover:bg-[#F59E0B] text-[#1C1917] font-black text-xs uppercase tracking-wider transition-all hover:scale-105 active:scale-95 shadow-lg text-center"
+        >
+          📍 En Yakın Şubeyi Gör
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>

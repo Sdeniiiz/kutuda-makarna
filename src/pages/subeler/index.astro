@@ -1,121 +1,28 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import BranchFinder from '../../components/BranchFinder.astro';
 import { branches } from '../../data/branches';
 
 const branchesSchema = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
-  'name': 'Kutuda Makarna Şubeleri',
+  'name': 'Kutuda Makarna Restoran Zinciri Şubeleri',
   'itemListElement': branches.map((b, index) => ({
     '@type': 'ListItem',
     'position': index + 1,
     'url': `https://kutudamakarna.com/subeler/${b.slug}`,
-    'name': b.name
+    'name': `${b.city} - ${b.name}`
   }))
 };
 ---
 
 <Layout
-  title="Kutuda Makarna Şubeleri | Samsun Atakum, İlkadım & Tekkeköy"
-  description="Kutuda Makarna şubeleri nerede? Samsun Atakum sahil, İlkadım Çiftlik ve Tekkeköy şubelerimizin adresleri, çalışma saatleri, telefonları ve yol tarifleri."
+  title="Kutuda Makarna Şubeleri | İstanbul, Samsun, Ankara, İzmir, Bursa, Antalya"
+  description="Kutuda Makarna şubeleri nerede? İstanbul, Samsun, Ankara, İzmir, Bursa ve Antalya restoran şubelerimizin adresleri, çalışma saatleri, telefonları ve yol tarifleri."
   canonical="https://kutudamakarna.com/subeler"
   activePath="/subeler"
   schemaJson={branchesSchema}
 >
-  <div class="py-12 lg:py-20 bg-gradient-to-b from-[#0E0E10] to-[#121216]">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <!-- Header -->
-      <div class="text-center max-w-3xl mx-auto mb-16">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFB800]/10 border border-[#FFB800]/30 text-[#FFB800] text-xs font-bold uppercase tracking-wider mb-4">
-          <span>📍 Samsun Lokasyonları</span>
-        </div>
-        <h1 class="text-4xl sm:text-5xl font-black text-white tracking-tight font-sans">
-          ŞUBELERİMİZ & <span class="text-[#FFB800]">YOL TARİFİ</span>
-        </h1>
-        <p class="text-zinc-400 mt-3 text-base sm:text-lg">
-          Taze makarnanızı sıcak kutusunda teslim almak için size en yakın şubemizi seçin.
-        </p>
-      </div>
-
-      <!-- Branches Detailed Cards -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {branches.map((b) => (
-          <div class="bg-[#14141A] border border-zinc-800 rounded-3xl p-8 flex flex-col justify-between card-hover relative group">
-            
-            <div>
-              <div class="flex items-center justify-between mb-4">
-                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-950 text-emerald-400 border border-emerald-800">
-                  <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                  Şimdi Açık
-                </span>
-                <span class="text-xs text-[#FFB800] font-bold font-mono uppercase">{b.district}</span>
-              </div>
-
-              <h2 class="text-2xl font-black text-white group-hover:text-[#FFB800] transition-colors">
-                <a href={`/subeler/${b.slug}`}>{b.name}</a>
-              </h2>
-
-              <p class="text-xs text-zinc-400 mt-3 leading-relaxed">
-                {b.address}
-              </p>
-
-              <!-- Working Hours & Phone -->
-              <div class="mt-6 pt-6 border-t border-zinc-800 space-y-3 text-xs">
-                <div class="flex items-start gap-2.5 text-zinc-300">
-                  <span class="text-[#FFB800] text-sm">🕒</span>
-                  <div>
-                    <span class="font-bold text-white block">Çalışma Saatleri:</span>
-                    <span>Hafta İçi: {b.workingHours.weekdays}</span><br />
-                    <span>Hafta Sonu: {b.workingHours.weekend}</span>
-                  </div>
-                </div>
-
-                <div class="flex items-center gap-2.5 text-zinc-300">
-                  <span class="text-[#FFB800] text-sm">📞</span>
-                  <div>
-                    <span class="font-bold text-white block">Telefon:</span>
-                    <a href={`tel:${b.phone}`} class="hover:text-[#FFB800] font-mono transition-colors">{b.phoneDisplay}</a>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Highlights -->
-              <div class="mt-6 space-y-2">
-                <span class="text-[11px] font-bold uppercase tracking-wider text-zinc-500 block">Şube Özellikleri:</span>
-                <ul class="space-y-1.5 text-xs text-zinc-400">
-                  {b.highlights.slice(0, 3).map((hl) => (
-                    <li class="flex items-center gap-2">
-                      <span class="text-[#FFB800]">✓</span>
-                      <span>{hl}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="mt-8 pt-6 border-t border-zinc-800 flex items-center gap-3">
-              <a
-                href={`/subeler/${b.slug}`}
-                class="flex-1 text-center py-3 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white text-xs font-bold transition-colors"
-              >
-                Şube Sayfası & Rehber
-              </a>
-              <a
-                href={b.googleMapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="flex-1 text-center py-3 rounded-xl bg-[#FFB800] text-[#0E0E10] text-xs font-bold hover:bg-[#F59E0B] shadow-md shadow-[#FFB800]/20 transition-transform hover:scale-105"
-              >
-                Haritada Aç ↗
-              </a>
-            </div>
-
-          </div>
-        ))}
-      </div>
-
-    </div>
-  </div>
+  <!-- Full Master Branch Finder Section -->
+  <BranchFinder />
 </Layout>

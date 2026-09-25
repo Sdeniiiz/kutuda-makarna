@@ -1,0 +1,102 @@
+---
+import { branches } from '../../data/branches';
+
+interface Props {
+  currentBranchSlug?: string;
+}
+
+const { currentBranchSlug } = Astro.props;
+---
+
+<div id="branch-selector-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 backdrop-blur-xs p-4">
+  <div class="bg-[#FBF9F5] border border-stone-200 rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-6 shadow-2xl relative">
+    
+    <!-- Close Button -->
+    <button
+      id="close-branch-selector"
+      type="button"
+      class="absolute top-5 right-5 w-8 h-8 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-600 flex items-center justify-center text-sm font-bold transition-colors cursor-pointer"
+      aria-label="Kapat"
+    >
+      ✕
+    </button>
+
+    <div class="space-y-1">
+      <div class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-amber-100 text-[#B45309] text-[10px] font-black uppercase tracking-wider">
+        <span>📍 ŞUBELERİMİZ</span>
+      </div>
+      <h3 class="text-2xl font-black text-[#1C1917] tracking-tight">
+        Sana En Yakın Şubeyi Seç
+      </h3>
+      <p class="text-xs text-stone-600">
+        Menü fiyatları, geçerli kampanyalar ve servis saatleri seçtiğin şubeye göre güncellenir.
+      </p>
+    </div>
+
+    <!-- Branches List -->
+    <div class="space-y-3">
+      {branches.map((b) => (
+        <a
+          href={`/subeler/${b.slug}`}
+          class={`flex items-center justify-between p-4 rounded-2xl border transition-all ${
+            currentBranchSlug === b.slug
+              ? 'bg-amber-50 border-amber-400 ring-2 ring-amber-400/40 shadow-xs'
+              : 'bg-white border-stone-200/90 hover:border-amber-400 hover:shadow-md'
+          }`}
+        >
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <span class="font-black text-sm text-[#1C1917]">{b.name}</span>
+              {currentBranchSlug === b.slug && (
+                <span class="text-[10px] font-bold bg-[#FFB800] text-[#1C1917] px-2 py-0.5 rounded-md">Seçili</span>
+              )}
+            </div>
+            <p class="text-xs text-stone-500 line-clamp-1">{b.address}</p>
+          </div>
+          <span class="text-[#D97706] text-lg font-black shrink-0 ml-3">→</span>
+        </a>
+      ))}
+    </div>
+
+    <div class="pt-2 text-center">
+      <a href="/subeler" class="text-xs text-stone-500 hover:text-[#D97706] font-bold underline transition-colors">
+        Tüm Şubeler ve Haritayı Görüntüle
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function setupBranchSelector() {
+    const modal = document.getElementById('branch-selector-modal');
+    const closeBtn = document.getElementById('close-branch-selector');
+    const openTriggers = document.querySelectorAll('[data-open-branch-selector]');
+
+    if (!modal) return;
+
+    openTriggers.forEach(trig => {
+      trig.addEventListener('click', (e) => {
+        e.preventDefault();
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      });
+    });
+
+    closeBtn?.addEventListener('click', () => {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    });
+  }
+
+  // Setup on page load and astro swap
+  setupBranchSelector();
+  document.addEventListener('astro:after-swap', setupBranchSelector);
+</script>

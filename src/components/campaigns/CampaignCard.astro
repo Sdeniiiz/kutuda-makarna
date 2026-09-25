@@ -1,0 +1,34 @@
+---
+import type { Campaign } from '../../types/campaign';
+
+interface Props {
+  campaign: Campaign;
+}
+
+const { campaign } = Astro.props;
+---
+
+<div class="p-6 rounded-3xl bg-gradient-to-r from-amber-50/80 via-white to-orange-50/80 border border-amber-200/90 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 shadow-sm hover:shadow-md hover:border-amber-300 transition-all duration-300">
+  <div class="space-y-1.5 flex-1">
+    <div class="flex items-center gap-2">
+      <span class="text-[10px] font-black uppercase tracking-wider text-[#B45309] px-3 py-1 rounded-full bg-amber-100/90 border border-amber-300/80">
+        {campaign.badge || 'ŞUBEYE ÖZEL KAMPANYA'}
+      </span>
+      {campaign.validUntil && (
+        <span class="text-[11px] text-stone-500 font-medium">
+          Son gün: {new Date(campaign.validUntil).toLocaleDateString('tr-TR')}
+        </span>
+      )}
+    </div>
+    
+    <h3 class="text-lg font-black text-[#1C1917] tracking-tight">{campaign.title}</h3>
+    <p class="text-xs sm:text-sm text-stone-600 leading-relaxed">{campaign.description}</p>
+  </div>
+
+  {campaign.discountPercent && (
+    <div class="shrink-0 text-left sm:text-right bg-amber-100/60 sm:bg-transparent p-3 sm:p-0 rounded-2xl sm:rounded-none w-full sm:w-auto flex sm:flex-col items-center sm:items-end justify-between sm:justify-center">
+      <span class="text-3xl font-black text-[#D97706]">%{campaign.discountPercent}</span>
+      <span class="text-[10px] font-bold text-stone-500 uppercase tracking-wider">İndirim Avantajı</span>
+    </div>
+  )}
+</div>

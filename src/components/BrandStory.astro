@@ -1,0 +1,96 @@
+---
+const storySteps = [
+  {
+    num: '01',
+    title: 'Bir fikirle başladı.',
+    description: 'Neden kaliteli al dente makarna sadece lüks fine-dining restoranlarda saatlerce beklenerek yensin? Hızlı, sıcak ve gurme bir sokak deneyimi hayaliyle yola çıktık.'
+  },
+  {
+    num: '02',
+    title: 'İyi makarnanın peşine düştük.',
+    description: 'En doğru durum buğdayı irmiğini bulduk. Bronz kalıplarla pürüzlü yüzeyli taze hamurlar açtık ve sosu içine hapseden geleneksel İtalyan tekniklerini benimsedik.'
+  },
+  {
+    num: '03',
+    title: 'İlk restoranımızı açtık.',
+    description: 'Tavadan kutuya 3 dakikada sıcak dökülen sosların kokusu tüm sokağı sardı. İlk günden kapıda oluşan kuyruklar, doğru bir lezzet sunduğumuzun ilk kanıtıydı.'
+  },
+  {
+    num: '04',
+    title: 'Misafirlerimiz arttı.',
+    description: 'Kutuda makarna sadece pratik bir yemek değil; üniversitelilerin, çalışanların ve ailelerin buluşma noktası haline gelen modern bir lezzet kültürüne dönüştü.'
+  },
+  {
+    num: '05',
+    title: 'Bugün farklı şehirlerdeyiz.',
+    description: 'Samsun’dan İstanbul Moda’ya, Ankara Tunalı’dan İzmir Kordon’a uzanan güçlü ve standartlarını koruyan profesyonel bir restoran franchise zinciri kurduk.'
+  },
+  {
+    num: '06',
+    title: 'Ve hikâye devam ediyor.',
+    description: 'Aynı heyecan, her sabah yoğrulan aynı taze hamur ve Türkiye’nin dört bir yanında yeni franchise restoranlarıyla büyüyen büyük bir aile.'
+  }
+];
+---
+
+<section id="hikayemiz" class="py-24 sm:py-36 bg-[#161B22] text-white border-b border-stone-800">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- Section Header -->
+    <div class="max-w-3xl space-y-4 mb-20 text-center sm:text-left">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFB800]/15 border border-[#FFB800]/30 text-amber-400 text-xs font-black uppercase tracking-widest">
+        <span>📖</span>
+        <span>HİKAYEMİZ</span>
+      </div>
+
+      <h2 class="text-4xl sm:text-6xl md:text-7xl font-black text-white tracking-tight uppercase font-sans">
+        BİZ KİMİZ?
+      </h2>
+
+      <p class="text-base sm:text-xl text-stone-400 leading-relaxed font-light">
+        Sıradan bir fast-food değil; lezzet, hız ve samimiyeti aynı kutuda buluşturan yeni nesil bir İtalyan restoran zinciriyiz.
+      </p>
+    </div>
+
+    <!-- Editorial Story Timeline Grid (6 Steps) -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10">
+      {storySteps.map((step) => (
+        <div class="p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-amber-400/40 hover:bg-white/8 transition-all duration-300 group flex flex-col justify-between">
+          <div class="space-y-4">
+            <span class="text-4xl sm:text-5xl font-black font-mono text-[#FFB800] group-hover:scale-110 inline-block transition-transform">
+              {step.num}
+            </span>
+            <h3 class="text-2xl font-black text-white tracking-tight leading-snug">
+              {step.title}
+            </h3>
+            <p class="text-stone-300 text-sm sm:text-base leading-relaxed font-light">
+              {step.description}
+            </p>
+          </div>
+
+          <div class="pt-6 mt-6 border-t border-white/10 flex items-center justify-between text-xs text-stone-500 font-bold uppercase tracking-wider">
+            <span>Kutuda Makarna Yolculuğu</span>
+            <span class="text-amber-400 opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Bottom Franchise Teaser -->
+    <div class="mt-16 pt-10 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+      <div>
+        <h4 class="text-xl sm:text-2xl font-black text-white">Bu Büyümenin Bir Parçası Olmak İster Misin?</h4>
+        <p class="text-xs sm:text-sm text-stone-400 mt-1">Kendi şehrinde kanıtlanmış bir konseptle restoran sahibi ol.</p>
+      </div>
+
+      <a
+        href="/franchise"
+        class="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-[#FFB800] hover:bg-[#F59E0B] text-[#1C1917] font-black text-xs uppercase tracking-wider transition-all hover:scale-105"
+      >
+        <span>Franchise Modelini İncele</span>
+        <span>→</span>
+      </a>
+    </div>
+
+  </div>
+</section>
