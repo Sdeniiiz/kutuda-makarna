@@ -92,6 +92,15 @@ import Layout from '../../layouts/Layout.astro';
 
         <div class="flex items-center flex-wrap gap-2.5">
           <button
+            id="simulate-lead-btn"
+            title="Müşteri sunumunda yeni bir başvurunun düşüşünü canlı göster"
+            class="px-3.5 py-2.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer"
+          >
+            <span>⚡</span>
+            <span>+ Canlı Başvuru Simüle Et</span>
+          </button>
+
+          <button
             id="export-csv-btn"
             class="px-4 py-2.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 text-xs font-bold transition-all flex items-center gap-2 cursor-pointer"
           >
@@ -603,6 +612,36 @@ import Layout from '../../layouts/Layout.astro';
           this.applications = [...DEFAULT_APPLICATIONS];
           this.saveApplications();
         }
+      });
+
+      // Simulate live lead button (Müşteri sunumu için canlı demo)
+      document.getElementById('simulate-lead-btn')?.addEventListener('click', () => {
+        const candidates = [
+          { city: 'Samsun', district: 'Atakum Sahil', loc: 'sahil', name: 'Batuhan Koç' },
+          { city: 'İstanbul', district: 'Beşiktaş Çarşı', loc: 'cadde', name: 'Zeynep Aksoy' },
+          { city: 'Ankara', district: 'Tunalı Hilmi', loc: 'cadde', name: 'Mert Kayra' },
+          { city: 'İzmir', district: 'Karşıyaka İskele', loc: 'sahil', name: 'Cemre Deniz' },
+        ];
+        const sample = candidates[Math.floor(Math.random() * candidates.length)];
+        const randNum = Math.floor(1000 + Math.random() * 9000);
+        const newLead: Application = {
+          id: 'app_sim_' + Date.now(),
+          code: `#FR-KM-2026-${randNum}`,
+          date: new Date().toISOString(),
+          name: sample.name,
+          phone: `0 (53${Math.floor(1 + Math.random() * 9)}) ${Math.floor(100 + Math.random() * 900)} ${Math.floor(10 + Math.random() * 90)} ${Math.floor(10 + Math.random() * 90)}`,
+          email: `${sample.name.toLowerCase().replace(/ /g, '.')}@gmail.com`,
+          city: sample.city,
+          district: sample.district,
+          budget: '4m-plus',
+          locationType: sample.loc,
+          experience: 'var',
+          message: 'Canlı sunum sırasında sistem üzerinden test amaçlı simüle edilmiş yüksek bütçeli yatırımcı başvurusu.',
+          status: 'Yeni'
+        };
+
+        this.applications.unshift(newLead);
+        this.saveApplications();
       });
 
       // Export CSV
